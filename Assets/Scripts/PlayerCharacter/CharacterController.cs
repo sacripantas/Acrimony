@@ -24,13 +24,14 @@ public class CharacterController : MonoBehaviour
 	[SerializeField] private float jumpTime;
 	private bool isJumping;
 	private bool isGrounded = false;
-
 	public float fallMultiplier = 2.5f;
 	public float lowJumpMultiplier = 2f;
+	private bool canDoubleJump;
+	[SerializeField] private Transform jumpFX;
 
 	//Crouch
 	bool crouch = false;
-	private bool isCrouching = false;
+	//private bool isCrouching = false;
 	private float crouchSpeed = 0.75f;
 
 	//Dash
@@ -39,6 +40,8 @@ public class CharacterController : MonoBehaviour
 	private bool isDashing = false;
 	public int direction = -1;
 	[SerializeField] private bool canDash;
+
+	public RoomManager roomManager;
 	
 
 	// Start is called before the first frame update
@@ -101,13 +104,32 @@ public class CharacterController : MonoBehaviour
 	{
 		isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.05f, groundLayer);
 
-		if (isGrounded == true && Input.GetButtonDown("Jump"))
+		if (isGrounded == true)
 		{
-			isJumping = true;
-			jumpTimeCounter = jumpTime;
-			rigid.velocity = Vector2.up * jumpforce;
-			animator.SetBool("IsJumping", true);
-			animator.SetBool("HasLanded", false);
+			canDoubleJump = true;
+			animator.SetBool("IsJumping", false);
+			animator.SetBool("HasLanded", true);
+		}
+
+		if (Input.GetButtonDown("Jump"))
+		{
+			if (isGrounded == true) // Do one jump if grounded
+			{
+				BaseJump();
+				animator.SetBool("IsJumping", true);
+				animator.SetBool("HasLanded", false);
+			}
+			else
+			{
+				if (canDoubleJump == true) // Do a second jump if not grounded
+				{
+					BaseJump();
+					animator.SetBool("IsJumping", true);
+					animator.SetBool("HasLanded", false);
+					canDoubleJump = false;
+					Instantiate(jumpFX, transform.position, Quaternion.identity);
+				}
+			}
 		}
 		else if (Input.GetKeyUp(KeyCode.Space))
 		{
@@ -126,6 +148,19 @@ public class CharacterController : MonoBehaviour
 				isJumping = false;
 			}
 		}
+	}
+
+	void BaseJump()
+	{
+		isJumping = true;
+		jumpTimeCounter = jumpTime;
+		rigid.velocity = Vector2.up * jumpforce;
+	}
+
+	public void JumpRefresh()
+	{
+		canDoubleJump = true;
+		BaseJump();
 	}
 
 	void GravityHandler()

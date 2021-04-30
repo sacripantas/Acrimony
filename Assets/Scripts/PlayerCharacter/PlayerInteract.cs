@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
 {
+    private static GameManager manager;
     [SerializeField] LayerMask interactableMask; //used to avoid raycasting colliding with player
     BoxCollider2D collider;
     CharacterController controller;
@@ -14,6 +15,7 @@ public class PlayerInteract : MonoBehaviour
         collider = GetComponentInChildren<BoxCollider2D>();
         controller = GetComponent<CharacterController>();
         flag = false;
+        manager = GameManager.instance;
     }
 
     // Update is called once per frame
@@ -26,7 +28,7 @@ public class PlayerInteract : MonoBehaviour
     }
 
     void IsInteractable() {
-       
+        if (manager.IsPaused) return;
         RaycastHit2D hit;
         if (controller.hMove < 0) { //player looking left
             hit = Physics2D.Raycast(collider.bounds.center, Vector2.left, 5f, interactableMask);

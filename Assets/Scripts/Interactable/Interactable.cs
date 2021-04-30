@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(CircleCollider2D))]
 public class Interactable : MonoBehaviour
 {
+    public static InventoryHandler inventory;
+    public static PlayerManager playerMng;
     private CircleCollider2D interactionTrigger;
     protected bool canInteract = false;
 
@@ -14,6 +16,10 @@ public class Interactable : MonoBehaviour
     {
         this.interactionTrigger = GetComponent<CircleCollider2D>();
         this.interactionTrigger.isTrigger = true;
+    }
+    void Awake() {
+        inventory = InventoryHandler.instance;
+        playerMng = PlayerManager.instance;
     }
 
     // Update is called once per frame

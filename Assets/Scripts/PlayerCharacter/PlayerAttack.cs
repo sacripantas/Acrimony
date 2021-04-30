@@ -41,6 +41,8 @@ public class PlayerAttack : MonoBehaviour
 			if (Input.GetButtonDown("SwipeAttack"))
 			{
 
+				Debug.Log("Attack");
+
 				attackPos.transform.localScale = new Vector3(5, 5, 1);
 				Collider2D[] enemiesToDamage = Physics2D.OverlapBoxAll(attackPos.position, new Vector2(attackRangeX,attackRangeY), 0, whatIsEnemies);
 

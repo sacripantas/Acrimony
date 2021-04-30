@@ -7,6 +7,7 @@ TagManager:
   - PlayerBody
   - DropDown
   - Ground
+  - TransitionCheck
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - Minimap
   - Enemy
   - Interactable
-  - 
+  - HoverText
   - 
   - 
   - 
@@ -43,4 +44,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: UI
+    uniqueID: 929574851
+    locked: 0
+  - name: HoverText
+    uniqueID: 805920593
     locked: 0

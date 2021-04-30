@@ -4,6 +4,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*
+ *  ***NPCBehaviour should not be instantiated***
+ */ 
+
 public class NPCBehaviour : Interactable
 {
     [Tooltip("Text that will be hovering over NPC's head")]
@@ -12,7 +16,7 @@ public class NPCBehaviour : Interactable
 
     [Tooltip("Prefab of TextMeshPro")]
     [SerializeField]
-    private TextMeshPro TMPText;
+    protected TextMeshPro TMPText;
 
     
     
@@ -26,7 +30,7 @@ public class NPCBehaviour : Interactable
     }
 
     // Update is called once per frame
-    void Update()
+    protected void Update()
     {
         if (canInteract) { //What will be done if we can interact
            this.TMPText.enabled = true;
@@ -35,12 +39,12 @@ public class NPCBehaviour : Interactable
         }
     }
     //creates a new instance of TMP
-    void CreateTMP() {       
+    protected void CreateTMP() {       
         TMPText.SetText(text);
     }
 
     public override void OnInteract() {
         base.OnInteract();
-        this.TMPText.SetText("Thanks for speaking with me!");
+        this.TMPText.SetText("Thanks for speaking with me");
     }
 }

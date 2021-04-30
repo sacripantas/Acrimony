@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject player;
 
+    public bool IsPaused;
+
     //singleton
     void Awake() {
         if (instance == null) {
@@ -54,5 +56,11 @@ public class GameManager : MonoBehaviour
         //add death screen, change song, display menu etc.
         this.SpawnHandler();
         Debug.Log("Died");
+    }
+
+    public void Pause(bool flag) {
+        if (flag) Time.timeScale = 0f;
+        else Time.timeScale = 1f;
+        IsPaused = flag;
     }
 }

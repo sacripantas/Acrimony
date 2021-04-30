@@ -1,0 +1,20 @@
+[api-updater (non-obsolete-error-filter)] 2021-04-29 10:45:44 AM : Starting C:/Users/User/Desktop/College/Year02/Semester1/Game Engine I/2020.3.2f1/Editor/Data/Tools/ScriptUpdater/APIUpdater.NonObsoleteApiUpdaterDetector.exe
+[api-updater (non-obsolete-error-filter)] 
+----------------------------------
+jit/startup time      : 2513.8247ms
+moved types parse time: 142ms
+candidates parse time : 9ms
+C# parse time         : 1121ms
+candidates check time : 135ms
+console write time    : 1ms
+
+[api-updater (non-obsolete-error-filter)] 2021-04-29 3:25:28 PM : Starting C:/Users/User/Desktop/College/Year02/Semester1/Game Engine I/2020.3.2f1/Editor/Data/Tools/ScriptUpdater/APIUpdater.NonObsoleteApiUpdaterDetector.exe
+[api-updater (non-obsolete-error-filter)] 
+----------------------------------
+jit/startup time      : 197.917ms
+moved types parse time: 63ms
+candidates parse time : 1ms
+C# parse time         : 453ms
+candidates check time : 67ms
+console write time    : 1ms
+

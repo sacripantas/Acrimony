@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+	//health
 	public int maxHealth = 100;
-	public int currentHealth;
+	public static int currentHealth;
 
+	//Mana
+	public int maxMana = 100;
+	public int currentMana;
+
+	//General
 	public static PlayerManager instance = null;
-
 	public UIManager ui;
-
     private GameManager manager;
 
-	private void Awake()
+	private void Awake()//Singleton
 	{
 		if (instance == null)
 		{
@@ -25,23 +29,28 @@ public class PlayerManager : MonoBehaviour
 		}
 	}
 
-	// Start is called before the first frame update
 	void Start()
 	{
 		currentHealth = maxHealth;
 		ui.SetMaxHealth(maxHealth);
+
+		currentMana = maxMana;
+		ui.SetMaxMana(maxMana);
+
         manager = GameManager.instance;
 	}
 
-	// Update is called once per frame
 	void Update()
 	{
 		ui.SetHealth(currentHealth); //Updates the healthbar
+		ui.SetMana(currentMana);
 
 		ChangeHP();
+		ChangeMana();
 		Death();
 	}
 
+    /***Dev only***/
 	public void ChangeHP()
 	{
 		if (Input.GetKeyDown(KeyCode.Keypad7) && currentHealth > 0)
@@ -54,15 +63,30 @@ public class PlayerManager : MonoBehaviour
 			ReceiveHealth(20);
 		}
 	}
+    /*******/
 
-	void TakeDamage(int damage)
+	void ChangeMana()
+	{
+		if(Input.GetKeyDown(KeyCode.Keypad9) && currentMana < 100)
+		{
+			ReceiveMana(10);
+		}
+	}
+
+	void ReceiveMana(int manaHeal)
+	{
+		currentMana += manaHeal;
+	}
+
+	public void TakeDamage(int damage)
 	{
 		currentHealth -= damage;
 	}
 
-	void ReceiveHealth(int heal)
+	public void ReceiveHealth(int heal)
 	{
 		currentHealth += heal;
+        if (currentHealth > 100) currentHealth = 100;
 	}
 
 	public void Death()
