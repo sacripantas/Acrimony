@@ -4,74 +4,65 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class EquipManagerUI : MonoBehaviour
-{
-    private static InventoryHandler ivnMng;
+/*
+ * Class manages equipment slot in inventory UI
+ * 
+ */
+public class EquipManagerUI : ItemUI
+{    
     [SerializeField]
     [Tooltip("Equipment type")]
     public EquipmentType type;
-
-    private Button btnEquip;
-
-    [SerializeField]
-    [Tooltip("TMP for Description")]
-    private TextMeshProUGUI hoverDescription;
-
-    private static int doubleClick = 0;
-
-    void Awake() {
-        ivnMng = InventoryHandler.instance;
-        Init();
+        
+    new void Awake() {
+        base.Awake();
     }
-
-    public static IEnumerator WaitDoubleClick() {
-        yield return new WaitForSecondsRealtime(0.2f);
-        ResetClick();
-    }
+        
     public void Unequip() {        
         if (doubleClick >= 2) {
             ivnMng.Unequip(ivnMng.GetItem(this.type));
             hoverDescription.SetText("");
             ResetClick();
         }
-    }
-
-    public void Click() {
-        doubleClick++;
-        StartCoroutine(WaitDoubleClick());
-    }
-
-    static void ResetClick() {
-        doubleClick = 0;
-    }
-
-    private void Init() {
-        this.btnEquip = GetComponent<Button>();
-        this.btnEquip.enabled = false;
-        if (hoverDescription != null)
-            this.hoverDescription.enabled = false;
-        else hoverDescription = new TextMeshProUGUI();
-        PositionHoverText();
-    }
+    }    
 
     //Mouse hover
-    public void OnPointerEnter() {
+    public new void OnPointerEnter() {
+        base.OnPointerEnter();
         //hover is only available if there is an item in the slot;
-        if (btnEquip.enabled) {
+        if (btn.enabled) {
             hoverDescription.SetText(ivnMng.GetItem(this.type).Description);
-            hoverDescription.enabled = true;
         }
+        ivnUIMng.isOverEquipSlot = true;
     }
-
-    //Mouse hover exit
-    public void OnPointerExit() {
-        hoverDescription.enabled = false;
+     
+    public new void OnPointerExit() {
+        base.OnPointerExit();
+        ivnUIMng.isOverEquipSlot = false;
     }
 
     //position the hover text according to inventory position]
-    private void PositionHoverText() {
+    protected override void PositionHoverText() {
         float xPosition = 0.0f, yPosition = 0.0f;
                 
         hoverDescription.transform.position = new Vector3(hoverDescription.transform.position.x + xPosition, hoverDescription.transform.position.y + yPosition, hoverDescription.transform.position.z);
-    }   
+    }
+
+    public override void BeginDrag() {
+        if (btn.enabled) {
+            Debug.Log("Begin Drag:" + ivnMng.GetItem(this.type).ToString());
+            ivnUIMng.SetDragged(ivnMng.GetItem(this.type));
+            ivnUIMng.EnableDragImage(true);
+        } else return;
+    }
+
+    public override void EndDrag() {
+        if (btn.enabled) {
+            if (ivnUIMng.isOverInventory) { //if its over iventory panel
+                ivnMng.Unequip(ivnMng.GetItem(this.type));
+            }
+            ivnUIMng.EnableDragImage(false);
+            ivnUIMng.SetDragged(null);
+        } else return;
+    }
 }

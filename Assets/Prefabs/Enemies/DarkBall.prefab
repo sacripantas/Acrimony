@@ -242,10 +242,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2175db6055f88140bc5b2bd4a8dc8e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 3
-  speed: 3
-  contactDamage: 25
-  playerManager: {fileID: 1660360809100106159, guid: 324847d43bbb5cb4497842d25495ce26, type: 3}
-  originalPos: {x: 0, y: 0}
   damage: 10
   duration: 2

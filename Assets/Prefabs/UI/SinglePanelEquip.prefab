@@ -270,6 +270,38 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 13
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2359953515561115794}
+          m_TargetAssemblyTypeName: EquipManagerUI, Assembly-CSharp
+          m_MethodName: BeginDrag
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 14
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2359953515561115794}
+          m_TargetAssemblyTypeName: ItemUI, Assembly-CSharp
+          m_MethodName: EndDrag
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!210 &5845319822772295423
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -293,8 +325,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cda2a76153746bb44accaa677fc2d97a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 6
   hoverDescription: {fileID: 5627821022768446454}
+  type: 6
 --- !u!1 &3495778790331894956
 GameObject:
   m_ObjectHideFlags: 0

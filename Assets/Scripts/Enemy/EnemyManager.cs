@@ -9,8 +9,9 @@ public class EnemyManager : MonoBehaviour
 	public float health = 3;
 	public float speed = 3f;
 	public int contactDamage = 25;
+	public int currency = 0;
 
-	public PlayerManager playerManager;
+	private PlayerManager playerManager;
 
 	//used to respawn enemy in the right place
 	public Vector2 originalPos;
@@ -19,21 +20,22 @@ public class EnemyManager : MonoBehaviour
     void Start()
     {
 		originalPos = transform.localPosition;
-    }
+		playerManager = PlayerManager.instance;
+	}
 
-	// Update is called once per frame
-	void Update()
-    {
-		
-    }
-
-	public void TakeDamage(float damage)
+	public void TakeDamage(float damage) //Kills the enemy
 	{
 		health -= damage;
 		if(health <= 0)
 		{
-			Destroy(gameObject);
+			playerManager.ReceiveMoney(currency);
+			this.gameObject.SetActive(false);
 		}
+	}
+
+	IEnumerator Death()
+	{
+		yield return new WaitForSeconds(1.2f);
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision)

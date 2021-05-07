@@ -8,6 +8,8 @@ TagManager:
   - DropDown
   - Ground
   - TransitionCheck
+  - Enemy
+  - Projectile
   layers:
   - Default
   - TransparentFX

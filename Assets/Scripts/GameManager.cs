@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance = null;
+    public static GameManager instance;
 
     [Tooltip("Insert all spawners in the scene")]
     [SerializeField]
@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject player;
 
-    public bool IsPaused;
+    public bool isPaused;
 
     //singleton
     void Awake() {
@@ -23,7 +23,9 @@ public class GameManager : MonoBehaviour
         } else if (instance != this) {
             Destroy(gameObject);
         }
-    }
+
+		AstarPath.active.Scan();
+	}
     // Start is called before the first frame update
     void Start()
     {
@@ -59,8 +61,9 @@ public class GameManager : MonoBehaviour
     }
 
     public void Pause(bool flag) {
+        Debug.Log("Pausing:" + flag);
         if (flag) Time.timeScale = 0f;
         else Time.timeScale = 1f;
-        IsPaused = flag;
+        isPaused = flag;
     }
 }

@@ -65,4 +65,6 @@ MonoBehaviour:
   desc: 'A helmet made of iron. '
   stacking: 0
   currStacked: 0
+  buyPrice: 50
+  sellPrice: 25
   type: 0

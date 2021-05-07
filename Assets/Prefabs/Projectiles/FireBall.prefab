@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 709586985397356247}
   - component: {fileID: 709586985397356245}
   - component: {fileID: 264118025936367319}
+  - component: {fileID: 1175188415047725423}
   m_Layer: 0
   m_Name: FireBall
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30,7 +31,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 709586986015111824}
+  - {fileID: 1870294619554750680}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -117,17 +118,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   travelSpeed: 3
-  damage: 5
-  direction: -1
-  manaCost: 10
-  fireCooldown: 3
-  nextFireTime: 0
+  direction: 1
   duration: 2
-  projectilePos: {fileID: 709586986015111824}
   projectileRange: 0.68
-  playerAttack: {fileID: 4533208409103879414, guid: 324847d43bbb5cb4497842d25495ce26, type: 3}
-  character: {fileID: 1443406928567258513, guid: 324847d43bbb5cb4497842d25495ce26, type: 3}
---- !u!1 &709586986015111825
+  damage: 1
+  manaCost: 10
+  hitBox: {fileID: 1870294619554750680}
+  playerAttack: {fileID: 1145675792658551353, guid: 18b8719eb3b9c984a8b488ee90b43b79, type: 3}
+  character: {fileID: 2668226527095214942, guid: 18b8719eb3b9c984a8b488ee90b43b79, type: 3}
+  projectileManager: {fileID: 1004855942199337010, guid: 896f4fc03cffd2f418273323de84b0b4, type: 3}
+--- !u!50 &1175188415047725423
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 709586985397356264}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 6
+--- !u!1 &4727985461489884028
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -135,21 +156,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 709586986015111824}
+  - component: {fileID: 1870294619554750680}
+  - component: {fileID: 1569385601643471685}
   m_Layer: 0
-  m_Name: Hitbox
+  m_Name: HitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &709586986015111824
+--- !u!4 &1870294619554750680
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 709586986015111825}
+  m_GameObject: {fileID: 4727985461489884028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.6, y: -0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -157,3 +179,19 @@ Transform:
   m_Father: {fileID: 709586985397356246}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &1569385601643471685
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4727985461489884028}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.68

@@ -26,6 +26,7 @@ public class ProjectileManager : MonoBehaviour
 	public float charmCooldown = 3f;
 	private float nextCharmTime = 0;
 
+	public ProgressionTracker tracker;
 
 	//
 	enum Projectile
@@ -35,7 +36,7 @@ public class ProjectileManager : MonoBehaviour
 		Charm
 	}
 
-	Projectile currentProjectile;
+	[SerializeField] Projectile currentProjectile;
 
 	private void Start()
 	{
@@ -49,7 +50,7 @@ public class ProjectileManager : MonoBehaviour
 
 	void ProjectileSwap()
 	{
-		if(currentProjectile == Projectile.Fire)
+		if (currentProjectile == Projectile.Fire)
 		{
 			SpawnFireball();
 			if (Input.GetKeyDown(KeyCode.Keypad4))
@@ -61,7 +62,7 @@ public class ProjectileManager : MonoBehaviour
 		else if (currentProjectile == Projectile.Ice)
 		{
 			SpawnIceball();
-			if (Input.GetKeyDown(KeyCode.Keypad4))
+			if (Input.GetKeyDown(KeyCode.Keypad4) )
 			{
 				currentProjectile = Projectile.Charm;
 				Debug.Log("Current = charm");

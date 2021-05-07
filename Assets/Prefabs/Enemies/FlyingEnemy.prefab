@@ -80,7 +80,7 @@ GameObject:
   - component: {fileID: 8719874199179429705}
   m_Layer: 9
   m_Name: FlyingEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -211,7 +211,7 @@ MonoBehaviour:
   health: 10
   speed: 1
   contactDamage: 25
-  playerManager: {fileID: 1660360809100106159, guid: 324847d43bbb5cb4497842d25495ce26, type: 3}
+  currency: 0
   originalPos: {x: 0, y: 0}
 --- !u!114 &4525160920855263344
 MonoBehaviour:
@@ -227,6 +227,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destinationSetter: {fileID: 8719874199179429705}
   aiPath: {fileID: 8719874199179429703}
+  effectManager: {fileID: 0}
+  poisonDmg: 10
+  poisonDuration: 5
+  poisonTickRate: 1
 --- !u!114 &8719874199179429704
 MonoBehaviour:
   m_ObjectHideFlags: 0

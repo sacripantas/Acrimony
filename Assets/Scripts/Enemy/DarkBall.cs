@@ -2,15 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DarkBall : EnemyManager
+public class DarkBall : MonoBehaviour
 {
-
 	public int damage = 10;
 	public float duration = 2f;
-    // Start is called before the first frame update
-    void Start()
+	private PlayerManager playerManager;
+
+	// Start is called before the first frame update
+	void Start()
     {
 		StartCoroutine(SelfDestruct());
+        playerManager = PlayerManager.instance;
     }
 
     // Update is called once per frame
@@ -23,14 +25,9 @@ public class DarkBall : EnemyManager
 	{
 		if(collision.gameObject.tag == "Player")
 		{
-			DealDamage();
+			playerManager.TakeDamage(damage);
 			Destroy(gameObject);
 		}
-	}
-
-	void DealDamage()
-	{
-		playerManager.TakeDamage(damage);
 	}
 
 	IEnumerator SelfDestruct()

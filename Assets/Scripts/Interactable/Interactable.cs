@@ -5,9 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(CircleCollider2D))]
 public class Interactable : MonoBehaviour
 {
-    public static InventoryHandler inventory;
-    public static PlayerManager playerMng;
+    protected static InventoryHandler inventory;
+    protected static PlayerManager playerMng;
     private CircleCollider2D interactionTrigger;
+
     protected bool canInteract = false;
 
     public bool CanInteract { get => canInteract; }
@@ -25,7 +26,7 @@ public class Interactable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     protected void OnTriggerEnter2D(Collider2D other) {
@@ -42,6 +43,8 @@ public class Interactable : MonoBehaviour
     public virtual void OnInteract() {
         if (canInteract) {
             Debug.Log("Interacted");
+        } else {
+            Debug.Log("cant interact");
         }
     }
 }

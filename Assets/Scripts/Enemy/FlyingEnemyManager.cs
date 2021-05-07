@@ -10,6 +10,11 @@ public class FlyingEnemyManager : MonoBehaviour
 	//References
 	public AIDestinationSetter destinationSetter;
 	public AIPath aiPath;
+	public StatusEffectManager effectManager;
+
+	public int poisonDmg = 10;
+	public int poisonDuration = 5;
+	public float poisonTickRate = 1f;
 
 	// Start is called before the first frame update
 	void Start()
@@ -27,6 +32,14 @@ public class FlyingEnemyManager : MonoBehaviour
 		else
 		{
 			spriteRenderer.flipX = true;
+		}
+	}
+
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+		if (collision.gameObject.tag == "Player")
+		{
+			effectManager.Poisoned(poisonDmg, poisonDuration, poisonTickRate);
 		}
 	}
 }

@@ -91,6 +91,7 @@ public class InventoryHandler : MonoBehaviour {
             if (i.Equals(item)) {
                 if (i.CanStack > 0 && i.Stacked > 1) { //if is stacked and is more than 1 just subtract 1
                     i.Stacked--;
+                    ivnUIManager.UpdateInventory(inventory);
                     return;
                 } else { //ifnot
                     inventory.Remove(i);
@@ -161,7 +162,11 @@ public class InventoryHandler : MonoBehaviour {
             equipped.Add(equip);
             inventory.Remove(equip);
         } else {
-            Debug.Log("cant equip right now");
+            Debug.Log("Swapping equipped items");
+            Equipable currEquiped = GetItem(equip.eType); //find equipped item 
+            inventory.Remove(equip); //remove item from inventory to create space
+            Unequip(currEquiped); //unequip item and put on inventory
+            equipped.Add(equip); //Equip new item
         }
         ivnUIManager.UpdateEquiped(Equiped);
         ivnUIManager.UpdateInventory(Inventory);

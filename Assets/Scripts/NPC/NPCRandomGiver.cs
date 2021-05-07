@@ -18,22 +18,16 @@ public class NPCRandomGiver : NPCBehaviour
     {
         
     }
-
-    // Update is called once per frame
-    new void Update()
-    {
-        base.Update();
-    }
-
     public override void OnInteract() {
+        base.OnInteract();
         if (oneTimeInteraction) {
             this.TMPText.SetText("Sorry I only had one Item to give you!!");
             return;
         }
-        base.OnInteract();
         oneTimeInteraction = false;
         GiveItemRandom();
-        this.TMPText.SetText("Enjoy your "+ itemInstance.ItemName +"!!");
+        TMPText.SetText("Enjoy your "+ itemInstance.ItemName +"!!");
+        Invoke("ResetText", 2f);
     }
 
     private void GiveItemRandom() {

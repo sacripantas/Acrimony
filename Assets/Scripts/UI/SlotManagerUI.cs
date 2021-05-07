@@ -9,45 +9,24 @@ using TMPro;
  * 
  */
 
-public class SlotManagerUI : MonoBehaviour {
-    private static InventoryHandler ivnMng;
+public class SlotManagerUI : ItemUI {
+
+
     [SerializeField]
     [Tooltip("Position at inventory Matrix (x,y)")]
     private int x, y;
 
     public int itemPos; //current pos
-
-    private Button btnItem;
-
-    [SerializeField]
-    [Tooltip("TMP for Description")]
-    private TextMeshProUGUI hoverDescription;
-
+        
     [SerializeField]
     [Tooltip("TMP for stack count")]
-    private TextMeshProUGUI stackCount;
-
-    private static int doubleClick = 0;
-
-    void Awake() {
+    private TextMeshProUGUI stackCount;    
+    
+    new void Awake() {
+        base.Awake();
         itemPos = x * 5 + y;
-        ivnMng = InventoryHandler.instance;
-        Init();
     }
-    // Start is called before the first frame update
-    void Start() {
-
-    }
-
-    // Update is called once per frame
-    void Update() {
-
-    }
-
-    public static IEnumerator WaitDoubleClick() {
-        yield return new WaitForSecondsRealtime(0.2f);
-        ResetClick();
-    }
+    
     public void UseItem() {
         if (doubleClick >= 2) {
             ivnMng.OnUse(this.itemPos);
@@ -56,41 +35,23 @@ public class SlotManagerUI : MonoBehaviour {
         }
     }
 
-    public void Click() {
-        doubleClick++;
-        StartCoroutine(WaitDoubleClick());
-    }
-
-    static void ResetClick() {
-        doubleClick = 0;
-    }
-
-    private void Init() {
-        this.btnItem = GetComponent<Button>();
-        this.btnItem.enabled = false;
-        this.stackCount.enabled = false;
-        if (hoverDescription != null)
-            this.hoverDescription.enabled = false;
-        else hoverDescription = new TextMeshProUGUI();
-        PositionHoverText();
-    }
-
     //Mouse hover
-    public void OnPointerEnter() {
+    public new void OnPointerEnter() {
+        base.OnPointerEnter();
         //hover is only available if there is an item in the slot;
-        if (btnItem.enabled) {
+        if (btn.enabled) {
             hoverDescription.SetText(ivnMng.GetItem(this.itemPos).Description);
-            hoverDescription.enabled = true;
         }
+        ivnUIMng.isOverInventory = true;
     }
 
-    //Mouse hover exit
-    public void OnPointerExit() {
-        hoverDescription.enabled = false;
+    public new void OnPointerExit() {
+        base.OnPointerExit();
+        ivnUIMng.isOverInventory = false;
     }
 
     //position the hover text according to inventory position]
-    private void PositionHoverText() {
+    protected override void PositionHoverText() {
         float xPosition = 0.0f, yPosition = 0.0f;
 
         if (x < 2) {//top rows
@@ -118,7 +79,33 @@ public class SlotManagerUI : MonoBehaviour {
             }
         } 
         this.stackCount.SetText("");
-        this.stackCount.enabled = false;
-        
+        this.stackCount.enabled = false;        
+    }
+
+    public override void BeginDrag() {
+        if (btn.enabled) {
+            Debug.Log("Begin Drag:" + ivnMng.GetItem(this.itemPos).ToString());
+            ivnUIMng.SetDragged(ivnMng.GetItem(this.itemPos));
+            ivnUIMng.EnableDragImage(true);
+        } else return;
+    }
+
+    public override void EndDrag() {
+        if (btn.enabled) {
+            if (ivnUIMng.isOverDelete) {//can delete
+                Debug.Log("can discard" + ivnMng.GetItem(this.itemPos).ToString());
+                ivnMng.RemoveItem(ivnMng.GetItem(this.itemPos));
+            }else if (ivnUIMng.isOverEquipSlot) {
+                Debug.Log("Try equip: " + ivnMng.GetItem(this.itemPos).ToString());
+                try {
+                    ivnMng.EquipItem((Equipable) ivnMng.GetItem(this.itemPos));
+                }
+                catch { //if cast fails, its not an equipment
+                    Debug.Log("not equipable");
+                }
+            }
+            ivnUIMng.EnableDragImage(false);
+            ivnUIMng.SetDragged(null);
+        } else return;
     }
 }

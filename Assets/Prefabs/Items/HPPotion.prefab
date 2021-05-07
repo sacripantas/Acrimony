@@ -66,3 +66,5 @@ MonoBehaviour:
     alive.
   stacking: 20
   currStacked: 0
+  buyPrice: 10
+  sellPrice: 5

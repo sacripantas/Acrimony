@@ -238,10 +238,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59cdebf3775e16f4d928f4a1749ddcc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hoverDescription: {fileID: 5627821022768446454}
   x: 0
   y: 0
   itemPos: 0
-  hoverDescription: {fileID: 5627821022768446454}
   stackCount: {fileID: 5726366152951270463}
 --- !u!114 &6564209745250236878
 MonoBehaviour:
@@ -279,6 +279,38 @@ MonoBehaviour:
         - m_Target: {fileID: 6732491910218355708}
           m_TargetAssemblyTypeName: SlotManagerUI, Assembly-CSharp
           m_MethodName: OnPointerExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 13
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 6732491910218355708}
+          m_TargetAssemblyTypeName: ItemUI, Assembly-CSharp
+          m_MethodName: BeginDrag
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 14
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 6732491910218355708}
+          m_TargetAssemblyTypeName: ItemUI, Assembly-CSharp
+          m_MethodName: EndDrag
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

@@ -12,7 +12,7 @@ public class NPCBehaviour : Interactable
 {
     [Tooltip("Text that will be hovering over NPC's head")]
     [SerializeField]
-    private string text;
+    protected string text;
 
     [Tooltip("Prefab of TextMeshPro")]
     [SerializeField]
@@ -20,7 +20,7 @@ public class NPCBehaviour : Interactable
 
     
     
-    void Awake() {
+    protected void Awake() {
         CreateTMP();
     }
     // Start is called before the first frame update
@@ -45,6 +45,11 @@ public class NPCBehaviour : Interactable
 
     public override void OnInteract() {
         base.OnInteract();
+        Debug.Log("interact on behaviour");
         this.TMPText.SetText("Thanks for speaking with me");
+    }
+
+    protected void ResetText() {
+        this.TMPText.SetText(text);
     }
 }

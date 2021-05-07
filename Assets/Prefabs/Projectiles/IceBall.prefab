@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4804615326950397742}
+  - component: {fileID: 7976884302478830847}
   m_Layer: 0
   m_Name: Hitbox
   m_TagString: Untagged
@@ -30,6 +31,22 @@ Transform:
   m_Father: {fileID: 4804615327581879338}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &7976884302478830847
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4804615326950397741}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.68
 --- !u!1 &4804615327581879343
 GameObject:
   m_ObjectHideFlags: 0
@@ -42,9 +59,10 @@ GameObject:
   - component: {fileID: 4804615327581879337}
   - component: {fileID: 4804615327581879336}
   - component: {fileID: 4683163025748618795}
+  - component: {fileID: -2497377158622475126}
   m_Layer: 0
   m_Name: IceBall
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -147,13 +165,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   travelSpeed: 5
-  damage: 2
   direction: 1
-  manaCost: 5
-  iceCooldown: 3
-  nextFireTime: 0
   duration: 2
-  projectilePos: {fileID: 4804615326950397742}
   projectileRange: 0.68
-  playerAttack: {fileID: 4533208409103879414, guid: 324847d43bbb5cb4497842d25495ce26, type: 3}
-  character: {fileID: 1443406928567258513, guid: 324847d43bbb5cb4497842d25495ce26, type: 3}
+  damage: 2
+  manaCost: 5
+  hitBox: {fileID: 4804615326950397742}
+  playerAttack: {fileID: 1145675792658551353, guid: 18b8719eb3b9c984a8b488ee90b43b79, type: 3}
+  character: {fileID: 2668226527095214942, guid: 18b8719eb3b9c984a8b488ee90b43b79, type: 3}
+  projectileManager: {fileID: 1004855942199337010, guid: 896f4fc03cffd2f418273323de84b0b4, type: 3}
+--- !u!50 &-2497377158622475126
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4804615327581879343}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 6

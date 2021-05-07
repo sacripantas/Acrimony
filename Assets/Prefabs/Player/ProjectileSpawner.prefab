@@ -10,9 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1004855942199337011}
   - component: {fileID: 1004855942199337010}
-  - component: {fileID: 3249059541618378354}
   m_Layer: 0
-  m_Name: ProjectileSpawner 1
+  m_Name: ProjectileSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,22 +43,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 358b8f985ab5fcb4e804bd32d0dba26f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
+  projectileSpawner: {fileID: 0}
+  fireballPrefab: {fileID: 0}
+  iceballPrefab: {fileID: 0}
+  charmballPrefab: {fileID: 0}
+  playerManager: {fileID: 0}
+  character: {fileID: 0}
+  fireBall: {fileID: 0}
+  iceBall: {fileID: 0}
+  charmBall: {fileID: 0}
+  fireCooldown: 1.5
+  iceCooldown: 0.5
+  charmCooldown: 3
   damage: 0
-  playerProjectile: {fileID: 3249059541618378354}
---- !u!114 &3249059541618378354
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1004855942199337020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d6995c7aa59c0f4b885f460cf545496, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectileSpawner: {fileID: 1004855942199337011}
-  fireballPrefab: {fileID: 709586985397356264, guid: a5a94a46156bea84faf433354374eb39, type: 3}
-  isFacingLeft: 0
-  characterController: {fileID: 0}
+  manaCost: 0
+  tracker: {fileID: 0}
