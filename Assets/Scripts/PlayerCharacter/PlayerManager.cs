@@ -25,10 +25,12 @@ public class PlayerManager : MonoBehaviour
 
 	//General
 	[Header("General")]
-	public UIManager ui;
+	private UIManager ui;
 	public static PlayerManager instance = null;
     private GameManager manager;
 	private CharacterController characterController;
+	public bool isDead = false;
+	private StatusEffectManager effectManager;
 
 	//Currency
 	public int currentMoney = 0;
@@ -50,6 +52,8 @@ public class PlayerManager : MonoBehaviour
 
 	void Start()
 	{
+		ui = UIManager.instance;
+
 		currentHealth = maxHealth;
 		ui.SetMaxHealth(maxHealth);
 
@@ -57,8 +61,9 @@ public class PlayerManager : MonoBehaviour
 		ui.SetMaxMana(maxMana);
 
         manager = GameManager.instance;
-		characterController = GetComponent<CharacterController>();
+		characterController = CharacterController.instance;
 		spriteRenderer = GetComponent<SpriteRenderer>();
+		effectManager = StatusEffectManager.instance;
 	}
 
 	void Update()
@@ -121,8 +126,24 @@ public class PlayerManager : MonoBehaviour
 
 	public void SpendMoney(int money)
 	{
-		currentMoney -= money;
+        if (currentMoney - money <= 0)
+            currentMoney = 0;
+        else
+            currentMoney -= money;
+        UpdateMoney.instance.SetAvailableMoney();
+        UpdateMoney.instance.Anim("buy");
 	}
+
+    public void SellItem(int money) {
+        currentMoney += money;
+        UpdateMoney.instance.SetAvailableMoney();
+        UpdateMoney.instance.Anim("sell");
+    }
+
+    public bool CanAfford(int money) {
+        if (currentMoney - money < 0) return false;
+        return true;
+    }
 
 	public void ReceiveAmmo(int ammunition)
 	{
@@ -136,14 +157,23 @@ public class PlayerManager : MonoBehaviour
 
 	public void Death()
 	{
+		
 		if (currentHealth <= 0) //Resets hp to 100 on death
 		{
+			isDead = true;
+			
 			manager.DeathHandler();
 			currentHealth = maxHealth;
 			currentAmmo = currentAmmo / 2;
 			currentMoney = 0;
-
+			StartCoroutine(DeathReset());
 		}
+	}
+
+	IEnumerator DeathReset()
+	{
+		yield return new WaitForSeconds(0.01f);
+		isDead = false;
 	}
 
 	public IEnumerator IFramesHandler()
@@ -163,9 +193,9 @@ public class PlayerManager : MonoBehaviour
 	}
 
 	//==========================================================================STATUS EFFECTS========================================================================
-	public void DamageOverTime(int damageAmount, int duration, float tickRate)
+	public void DamageOverTime(int damageAmount, int duration, float tickRate, StatusEffectManager.CurrentStatus status)
 	{
-		StartCoroutine(DamageOverTimeCo(damageAmount, duration, tickRate));
+		StartCoroutine(DamageOverTimeCo(damageAmount, duration, tickRate, status));
 	}
 
 	public void HealOverTime(int healAmount, int duration, float tickRate)
@@ -173,14 +203,45 @@ public class PlayerManager : MonoBehaviour
 		StartCoroutine(HealOverTimeCo(healAmount, duration, tickRate));
 	}
 
-	IEnumerator DamageOverTimeCo(float damageAmount, float duration, float tickRate)
+	public void ClearAll()
+	{
+		StopAllCoroutines();		
+	}
+
+	IEnumerator DamageOverTimeCo(float damageAmount, float duration, float tickRate, StatusEffectManager.CurrentStatus status)
 	{
 		float amountDamaged = 0;
-		float damagePerTick = damageAmount / duration;
-		while(amountDamaged < damageAmount)
+		float damagePerTick = damageAmount / duration;	
+
+		switch (status)
+		{
+			case StatusEffectManager.CurrentStatus.Poison:
+				ui.SetMaxPoison(damageAmount);
+				break;
+			case StatusEffectManager.CurrentStatus.Bleed:
+				ui.SetMaxBleed(damageAmount);
+				break;
+			case StatusEffectManager.CurrentStatus.Burn:
+				ui.SetMaxBurn(damageAmount);
+				break;
+		}
+
+		while (amountDamaged < damageAmount)
 		{
 			currentHealth -= (int)damagePerTick;
 			amountDamaged += damagePerTick;
+			switch (status)
+			{
+				case StatusEffectManager.CurrentStatus.Poison:
+					ui.SetPoison(damageAmount - amountDamaged);
+					break;
+				case StatusEffectManager.CurrentStatus.Bleed:
+					ui.SetBleed(damageAmount - amountDamaged);
+					break;
+				case StatusEffectManager.CurrentStatus.Burn:
+					ui.SetBurn(damageAmount - amountDamaged);
+					break;
+			}			
 			yield return new WaitForSeconds(tickRate);
 		}
 	}
@@ -193,7 +254,7 @@ public class PlayerManager : MonoBehaviour
 		{
 			if(currentHealth < maxHealth)
 			{
-				currentHealth += (int)healPerTick;
+				currentHealth += (int)healPerTick;				
 			}
 			amountHealed += healPerTick;
 			yield return new WaitForSeconds(tickRate);

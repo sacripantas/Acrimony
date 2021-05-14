@@ -54,6 +54,7 @@ public class InventoryUIManager : MonoBehaviour
         manager = GameManager.instance;
         emptyIvnSprite = ivnBtns[0].GetComponent<Button>().image.sprite;
         isActive = false;
+        invScreen.SetActive(true);
         invScreen.SetActive(false);
         dragImage.enabled = false;       
     }
@@ -73,7 +74,7 @@ public class InventoryUIManager : MonoBehaviour
 
     //displays inventory screen to player
     void ShowIvn() {
-        if (!manager.isPaused) {
+        if (!manager.isPaused ^ isActive) {
             isActive = !isActive;
             manager.Pause(isActive); //pauses time
             this.invScreen.SetActive(isActive); //activates inventory screen

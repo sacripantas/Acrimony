@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class JumpRefresh : MonoBehaviour
 {
-	public CharacterController characterController;
+	private CharacterController characterController;
 
 	private bool active;
 	public float enableTimer;
@@ -15,6 +15,7 @@ public class JumpRefresh : MonoBehaviour
 	{
 		active = true;
 		particle = transform.GetComponentInChildren<ParticleSystem>();
+		characterController = CharacterController.instance;
 	}
 
 	private void Update()

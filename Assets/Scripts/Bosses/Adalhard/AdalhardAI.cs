@@ -14,8 +14,9 @@ public class AdalhardAI : MonoBehaviour
 	private DashTrail trail;
 	private EnemyManager enemyManager;
 
+
 	//Targeting
-	[Header("Targetting")]
+	[Header("Targeting")]
 	public GameObject darkBall;
 	public float range;
 	public Transform target;
@@ -36,7 +37,6 @@ public class AdalhardAI : MonoBehaviour
 	private StatusEffectManager effectManager;
 	private bool isEnraged;
 
-
 	private void Start()
 	{
 		rigid = GetComponent<Rigidbody2D>();
@@ -48,12 +48,18 @@ public class AdalhardAI : MonoBehaviour
 
 	private void Update()
 	{
-		if(enemyManager.health <= 500)
+		HPStage();
+		PlayerFinder();
+	}
+
+
+
+	void HPStage()
+	{
+		if (enemyManager.health <= 500)
 		{
 			anim.SetBool("IsEnraged", true);
 		}
-
-		PlayerFinder();
 	}
 
 	public void Enrage()
@@ -198,7 +204,7 @@ public class AdalhardAI : MonoBehaviour
 		yield return new WaitForSeconds(1.5f);
 
 		Vector2 dashTarget = new Vector2(player.position.x, rigid.position.y);
-		Vector2 newPos = Vector2.MoveTowards(rigid.position, dashTarget, 400 * Time.fixedDeltaTime);
+		Vector2 newPos = Vector2.MoveTowards(rigid.position, dashTarget, 500 * Time.fixedDeltaTime);
 		rigid.MovePosition(newPos);
 
 		StartCoroutine(EnragedDashReset());

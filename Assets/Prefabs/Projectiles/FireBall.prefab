@@ -119,13 +119,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   travelSpeed: 3
   direction: 1
-  duration: 2
+  duration: 4
   projectileRange: 0.68
-  damage: 1
+  damage: 10
   manaCost: 10
   hitBox: {fileID: 1870294619554750680}
-  playerAttack: {fileID: 1145675792658551353, guid: 18b8719eb3b9c984a8b488ee90b43b79, type: 3}
-  character: {fileID: 2668226527095214942, guid: 18b8719eb3b9c984a8b488ee90b43b79, type: 3}
   projectileManager: {fileID: 1004855942199337010, guid: 896f4fc03cffd2f418273323de84b0b4, type: 3}
 --- !u!50 &1175188415047725423
 Rigidbody2D:

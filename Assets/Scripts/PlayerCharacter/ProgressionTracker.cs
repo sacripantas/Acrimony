@@ -12,80 +12,52 @@ public class ProgressionTracker : MonoBehaviour
 	public bool unlockProjectileIce = true;
 	public bool unlockProjectileCharm = true;
 
-    // Update is called once per frame
-    void Update()
-    {
-		UnlockDoubleJump();
-		UnlockWallJump();
-		UnlockDash();
-		UnlockGun();
-		UnlockFire();
-		UnlockIce();
-		UnlockCharm();
-    }
+	public static ProgressionTracker instance = null;
+
+	private void Awake()//Singleton
+	{
+		if (instance == null)
+		{
+			instance = this;
+		}
+		else if (instance != this)
+		{
+			Destroy(gameObject);
+		}
+	}
 
 	void UnlockDoubleJump()
 	{
-		if (Input.GetKeyDown(KeyCode.Alpha0))
-		{
-			unlockDoubleJump = true;
-		}	
+		unlockDoubleJump = true;
 	}
-
 
 	void UnlockWallJump()
 	{
-		if (Input.GetKeyDown(KeyCode.Alpha1))
-		{
-			unlockWallJump = true;
-		}		
+		unlockWallJump = true;
 	}
-
 
 	void UnlockDash()
 	{
-		if (Input.GetKeyDown(KeyCode.Alpha2))
-		{
-			unlockDash = true;
-		}
-		
+		unlockDash = true;
 	}
-
 
 	void UnlockGun()
 	{
-		if (Input.GetKeyDown(KeyCode.Alpha3))
-		{
-			unlockGun = true;
-		}
-		
+		unlockGun = true;
 	}
 
-
-	void UnlockFire()
+	public void UnlockFire()
 	{
-		if (Input.GetKeyDown(KeyCode.Alpha4))
-		{
-			unlockProjectileFire = true;
-		}
-		
+		unlockProjectileFire = true;
 	}
-
 
 	void UnlockIce()
 	{
-		if (Input.GetKeyDown(KeyCode.Alpha5))
-		{
-			unlockProjectileIce = true;
-		}	
+		unlockProjectileIce = true;
 	}
-
 
 	void UnlockCharm()
 	{
-		if (Input.GetKeyDown(KeyCode.Alpha6))
-		{
-			unlockProjectileCharm = true;
-		}		
+		unlockProjectileCharm = true;
 	}
 }

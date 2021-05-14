@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6747542962324608039}
   - component: {fileID: 6710362569259796025}
+  - component: {fileID: -5068234732034190135}
+  - component: {fileID: 612666542331729728}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -43,3 +45,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fe97e1031a746543bc51d3ae01d75f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  respawners: []
+  player: {fileID: 0}
+  isPaused: 0
+--- !u!114 &-5068234732034190135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754330382488774710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56ca98b0f584909468a262737ba3d85f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unlockDoubleJump: 1
+  unlockWallJump: 1
+  unlockDash: 1
+  unlockGun: 1
+  unlockProjectileFire: 1
+  unlockProjectileIce: 1
+  unlockProjectileCharm: 1
+--- !u!114 &612666542331729728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754330382488774710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6a64a9a8c810674d94c64b95297320d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poisonContainer: {fileID: 0}
+  bleedContainer: {fileID: 0}
+  burnContainer: {fileID: 0}
+  freezeContainer: {fileID: 0}
+  groundedContainer: {fileID: 0}
+  weakContainer: {fileID: 0}
+  strengthContainer: {fileID: 0}
+  cleanseContainer: {fileID: 0}
+  healContainer: {fileID: 0}
+  poisonDmg: 10
+  poisonDuration: 5
+  burnDamage: 50
+  burnDuration: 5
+  burnTick: 1
+  bleedDamage: 40
+  bleedDuration: 10
+  bleedTick: 1
+  healDmg: 10
+  healDuration: 5
+  current: 0

@@ -21,21 +21,27 @@ public class TargettingManager : MonoBehaviour
 	public Vector2 direction;
 	public float force = 100f;
 
-	public PlayerManager playerManager;
+	private PlayerManager playerManager;
 	public int localAmmo;
+	private ProgressionTracker tracker;
 
     // Start is called before the first frame update
     void Start()
     {
 		line = GetComponent<LineRenderer>();
+		playerManager = PlayerManager.instance;
+		tracker = ProgressionTracker.instance;
 		
     }
 
 	// Update is called once per frame
 	void Update()
 	{
-		FindClosestEnemy();
-		localAmmo = playerManager.currentAmmo;
+		if(tracker.unlockGun == true)
+		{
+			FindClosestEnemy();
+			localAmmo = playerManager.currentAmmo;
+		}		
 	}
 
 	void FindClosestEnemy()

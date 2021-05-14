@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7878430141321736784}
   - component: {fileID: 7878430141321736788}
   - component: {fileID: 4943335297449441715}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: DarkBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -16,14 +16,17 @@ public class FireBall : MonoBehaviour
 	public Transform hitBox;
 
 	//References
-	public PlayerAttack playerAttack;
-	public CharacterController character;
+	private PlayerAttack playerAttack;
+	private CharacterController character;
 	public ProjectileManager projectileManager;
 
 	// Start is called before the first frame update
 	void Start()
     {
 		StartCoroutine(SelfDestruct());
+
+		playerAttack = PlayerAttack.instance;
+		character = CharacterController.instance;
 
 		spriteRenderer = GetComponent<SpriteRenderer>();
 	}

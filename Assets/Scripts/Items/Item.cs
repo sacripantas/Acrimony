@@ -39,6 +39,7 @@ public class Item : Interactable {
     public string Description { get => desc; }
     public string ItemName { get => itemName; }
     public int BuyPrice { get => buyPrice; }
+    public int SellPrice { get => sellPrice; }
     public int CanStack { get => stacking; }
     public int Stacked { get => currStacked; set => currStacked = value; }
     // Start is called before the first frame update

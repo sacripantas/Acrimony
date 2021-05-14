@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1102967798862593194}
   - component: {fileID: 2216033908748480703}
   - component: {fileID: 8262702885657104868}
+  - component: {fileID: 966680072}
   m_Layer: 10
   m_Name: NPC Vendor
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1102967798862593199}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.35, y: -1.98, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children:
@@ -141,6 +142,21 @@ MonoBehaviour:
   - {fileID: 5786201716043335980, guid: 9bd5687926c0c5d46b9d109381c71612, type: 3}
   - {fileID: 6630785067587695936, guid: c4de8a4af12b7a747ad0db95099df9e6, type: 3}
   - {fileID: 2479435132229211696, guid: 2aa3611e8d5def74fa3ab46fdec96705, type: 3}
+--- !u!114 &966680072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1102967798862593199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93ef07bce20f6004383700b768ffdbfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 0}
+  npcSprite: {fileID: 0}
+  names: 
 --- !u!1001 &8642327302277645450
 PrefabInstance:
   m_ObjectHideFlags: 0

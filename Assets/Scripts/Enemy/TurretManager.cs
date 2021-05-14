@@ -9,6 +9,7 @@ public class TurretManager : MonoBehaviour
 	private Animator animator;
 	public LayerMask whatIsPlayer;
 	public PlayerManager playerManager;
+	private StatusEffectManager effectManager;
 
 	//Bullet
 	public GameObject darkBall;
@@ -30,6 +31,7 @@ public class TurretManager : MonoBehaviour
     {
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		animator = GetComponent<Animator>();
+		effectManager = StatusEffectManager.instance;
 	}
 
     // Update is called once per frame

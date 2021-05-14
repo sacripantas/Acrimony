@@ -10,7 +10,7 @@ public class FlyingEnemyManager : MonoBehaviour
 	//References
 	public AIDestinationSetter destinationSetter;
 	public AIPath aiPath;
-	public StatusEffectManager effectManager;
+	private StatusEffectManager effectManager;
 
 	public int poisonDmg = 10;
 	public int poisonDuration = 5;
@@ -20,6 +20,7 @@ public class FlyingEnemyManager : MonoBehaviour
 	void Start()
     {
 		spriteRenderer = GetComponent<SpriteRenderer>();
+		effectManager = StatusEffectManager.instance;
 	}
 
     // Update is called once per frame

@@ -9,68 +9,55 @@ public class UIManager : MonoBehaviour
     public static UIManager instance = null;
     
     private static GameManager manager;
+    private static PlayerManager playerManager;
+    private static InventoryHandler inventory;
+	private StatusEffectManager effectManager;
 
 	//HealthBar
+	[Header("Player Health")]
 	public Slider healthBar;
 	public Gradient gradient;
 	public Image healthFill;
 	public Text hpValue;
 
 	//ManaBar
+	[Header("Player Mana")]
 	public Slider manaBar;
 	public Image manaFill;
 
-	//Currency
+	[Header("Resources")]
 	public Text money;
-
-	//Ammo
 	public Text ammo;
 
-    [SerializeField]
-    [Tooltip("Attach Shop Canvas")]
-    private Canvas shopCanvas;
+	[Header("Current Status")]
+	public Slider poisonBar;
+	public Image posionFill;
+	public Slider bleedBar;
+	public Image bleedFill;
+	public Slider burnBar;
+	public Image burnFill;
+	public Slider healBar;
+	public Image healFill;
 
-    [SerializeField]
-    [Tooltip("Attach all panels for shop")]
-    private List<GameObject> shopPanels;
-
-    [SerializeField]
-    [Tooltip("Prefab for shop button")]
-    private GameObject btnShop;
-
-    private List<Item> saleItems;
-
-    [SerializeField]
-    private List<GameObject> saleBtns;
-
-    [SerializeField]
-    [Tooltip("Panel for items")]
-    private GameObject itemsPanel;
-
-    [SerializeField]
-    private GameObject activePanel;
-
-    [SerializeField]
-    public Text descPanel, statsPane;
-
-    [SerializeField]
-    private float shopH, shopW;
-
+	[Header("Adalhard")]
+	public Slider adalhardHpBar;
+	public Image adalhardFill;
+            
     void Awake() {
         if (instance == null) {
             instance = this;
         } else if (instance != this) {
             Destroy(gameObject);
         }
-        if(shopCanvas != null)
-            shopCanvas.enabled = false;
     }
 
     void Start() {
         manager = GameManager.instance;
-        this.shopW = shopCanvas.GetComponent<RectTransform>().rect.width - 100f;
-        this.shopH = shopCanvas.GetComponent<RectTransform>().rect.height - 100f;
-    }
+        playerManager = PlayerManager.instance;
+        inventory = InventoryHandler.instance;
+		effectManager = StatusEffectManager.instance;		
+	}
+
 
     public void SetMaxHealth(int health)
 	{
@@ -118,79 +105,43 @@ public class UIManager : MonoBehaviour
 		ammo.text = "Ammo " + "\n"+  ammunition.ToString();
 	}
 
-    //Enables Shop Canvas
-    public void OpenShop(bool flag, List<Item> sale) {
-        this.shopCanvas.enabled = flag;
-        this.SetUIVisible(!flag);
-        saleItems = sale;
-        ChooseShop("PanelVendor");
-        manager.Pause(flag);
-    }
+	public void SetBossHP(float health)
+	{
+		adalhardHpBar.value = health;
+	}
 
-    //close shop
-    public void OpenShop(bool flag) {
-        this.shopCanvas.enabled = flag;
-        this.SetUIVisible(!flag);
-        saleItems = null;
-        ChooseShop("");
-        manager.Pause(flag);
-    }
+	//==================================================================================STATUS EFFECTS=======================================================
 
-    //Shows selected panel
-    public void ChooseShop(string panelName) {
-        ClearSaleButtons();
-        foreach (GameObject panel in shopPanels) {
-            if (panel.name.Equals(panelName)) {
-                panel.SetActive(true);
-                activePanel = panel;
-            } else
-                panel.SetActive(false);
-        }
-        InitPanels();
-        CreateSaleButtons();
-    }
+	public void SetMaxPoison(float duration)
+	{
+		poisonBar.maxValue = duration;
+		poisonBar.value = duration;
+	}
 
-    //Create list of buttons with items for sale
-    public void CreateSaleButtons() {
-        int pos = 0;
-        GameObject btn;
-        if (saleItems == null) return;
-        foreach(Item i in saleItems) {
-            btn = Instantiate(btnShop);
-            btn.GetComponent<SaleButton>().SetItem(i);
-            btn.transform.SetParent(itemsPanel.transform);
-            btn.GetComponent<SaleButton>().SetPosition(pos);
-            saleBtns.Add(btn);
-            pos += 50;
-        }
-        RectTransform panelRT = itemsPanel.GetComponent<RectTransform>();
-        if(pos >= 400)
-            panelRT.offsetMin = new Vector2(panelRT.offsetMin.x, -pos-5);
-        //EventSystem.current.SetSelectedGameObject(saleBtns[0].GetComponent<Button>().gameObject, new BaseEventData(EventSystem.current));
-    }
+	public void SetPoison(float duration)
+	{
+		poisonBar.value = duration;
+	}
 
-    //Clears list of buttons
-    public void ClearSaleButtons() {        
-        foreach (GameObject i in saleBtns) {
-            Destroy(i);
-        }
-        saleBtns.Clear();
-    }
+	public void SetMaxBleed(float duration)
+	{
+		bleedBar.maxValue = duration;
+		bleedBar.value = duration;
+	}
 
-    private void InitPanels() {      
-        /*
-        GameObject rightPanel = null, leftPanel = null;
+	public void SetBleed(float duration)
+	{
+		bleedBar.value = duration;
+	}
 
-        Debug.Log(activePanel.ToString());
-        
-        rightPanel = activePanel.transform.Find("MainPanel").Find("RightPanel").gameObject;
-        leftPanel = activePanel.transform.Find("MainPanel").Find("LeftPanel").gameObject;
+	public void SetMaxBurn(float duration)
+	{
+		burnBar.maxValue = duration;
+		burnBar.value = duration;
+	}
 
-        if (rightPanel == null || leftPanel == null) return;
-        RectTransform rtR = rightPanel.GetComponent<RectTransform>();
-        rtR.sizeDelta = new Vector2((this.shopW/3f) * 2f, 0f); // right panel takes 2/3 of the screen
-        RectTransform rtL = leftPanel.GetComponent<RectTransform>();
-        rtL.sizeDelta = new Vector2((this.shopW/3f), 0f); // LEft panel takes 1/3 of th screen
-        */
-    }
+	public void SetBurn(float duration)
+	{
+		burnBar.value = duration;
+	}	
 }

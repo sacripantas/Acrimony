@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     private static GameManager manager;
+	public static PlayerAttack instance = null;
 
 	//General
 	[Header("General")]
@@ -13,6 +14,8 @@ public class PlayerAttack : MonoBehaviour
 	public CharacterController character;
 	public GameObject attackArea;
 	public Transform attackPos;
+	public ParticleSystem swipeFX;
+	public ParticleSystem lungeFX;
 
 	//Swipe
 	[Header("Swipe Attack")]
@@ -31,7 +34,19 @@ public class PlayerAttack : MonoBehaviour
 	public float attackLungeRangeX;
 	public float attackLungeRangeY;
 
-    void Start()
+	private void Awake()//Singleton
+	{
+		if (instance == null)
+		{
+			instance = this;
+		}
+		else if (instance != this)
+		{
+			Destroy(gameObject);
+		}
+	}
+
+	void Start()
 	{
         manager = GameManager.instance;
     }
@@ -44,11 +59,11 @@ public class PlayerAttack : MonoBehaviour
 
 		if (character.direction == 1)
 		{
-			attackPos.transform.localPosition = new Vector3(1.5f, 0, 0);
+			attackPos.transform.localRotation = Quaternion.Euler(0, 180, 0);
 		}
 		else
 		{
-			attackPos.transform.localPosition = new Vector3(-1.5f, 0.1f, 0);
+			attackPos.transform.localRotation = Quaternion.Euler(0, 0, 0);
 		}
 	}
 
@@ -68,10 +83,8 @@ public class PlayerAttack : MonoBehaviour
 				{
 					enemiesToDamage[i].GetComponent<EnemyManager>().TakeDamage(damage);
 				}
-
-				attackArea.SetActive(true);
-
-				
+				swipeFX.Play();
+				//attackArea.SetActive(true);		
 
 				timeBtwAttack = startTimeBtwAttack;
 			}			
@@ -79,7 +92,7 @@ public class PlayerAttack : MonoBehaviour
 		else
 		{
 			timeBtwAttack -= Time.deltaTime;
-			attackArea.SetActive(false);
+			//attackArea.SetActive(false);
 		}
 	}
 
@@ -97,8 +110,8 @@ public class PlayerAttack : MonoBehaviour
 				{
 					enemiesToDamage[i].GetComponent<EnemyManager>().TakeDamage(damageLunge);
 				}
-
-				attackArea.SetActive(true);
+				lungeFX.Play();
+				//attackArea.SetActive(true);
 
 				timeBtwLungeAttack = startTimeBtwLungeAttack;
 			}
@@ -106,7 +119,7 @@ public class PlayerAttack : MonoBehaviour
 		else
 		{
 			timeBtwLungeAttack -= Time.deltaTime;
-			attackArea.SetActive(false);
+			//attackArea.SetActive(false);
 		}
 	}
 

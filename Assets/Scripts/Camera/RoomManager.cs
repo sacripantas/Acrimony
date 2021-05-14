@@ -51,8 +51,7 @@ public class RoomManager : MonoBehaviour
 			foreach (GameObject enemy in enemies)
 			{
 				enemy.SetActive(false);
-			}
-			
+			}			
 		}
 	}
 

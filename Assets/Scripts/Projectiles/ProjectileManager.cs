@@ -10,8 +10,8 @@ public class ProjectileManager : MonoBehaviour
 	[SerializeField] private GameObject charmballPrefab;
 
 	//References
-	public PlayerManager playerManager;
-	public CharacterController character;
+	private PlayerManager playerManager;
+	private CharacterController character;
 	public FireBall fireBall;
 	public IceBall iceBall;
 	public CharmBall charmBall;
@@ -40,6 +40,9 @@ public class ProjectileManager : MonoBehaviour
 
 	private void Start()
 	{
+		playerManager = PlayerManager.instance;
+		character = CharacterController.instance;
+
 		currentProjectile = Projectile.Fire;
 	}
 

@@ -43,7 +43,7 @@ public class InventoryHandler : MonoBehaviour {
 
     }
     // checks if the inventory still has available space
-    private bool HasSpace() {
+    public bool HasSpace() {
         if (inventory.Count >= itemsQty) return false;
         return true;
     }
@@ -61,12 +61,13 @@ public class InventoryHandler : MonoBehaviour {
     }
 
     //add gameobject item to inventory
-    public void AddItem(Item item) {
+    public bool AddItem(Item item) {
         if (item.CanStack == 0) { //Item is not stackable,
             if (HasSpace()) { // the inventory has space so add normally
                 inventory.Add(item);
             } else {
                 DiscardItem(item); //item is not stackable and there is no space, so discard new item.
+                return false;
             }
         } else {//item is stackable
             int position = HasStackedItem(item);
@@ -79,10 +80,12 @@ public class InventoryHandler : MonoBehaviour {
                     item.Stacked++;
                 } else {
                     DiscardItem(item);
+                    return false;
                 }
             }
         }
-        ivnUIManager.UpdateInventory(inventory); // updates inventory UI
+        ivnUIManager.UpdateInventory(inventory); // updates inventory UI        
+        return true;
     }
 
     //removes gameobject item from inventory but doesnt destroy instance

@@ -19,7 +19,7 @@ public class EnemyManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-		originalPos = transform.localPosition;
+		originalPos = transform.localPosition; //Resets enemy position on respawn
 		playerManager = PlayerManager.instance;
 	}
 

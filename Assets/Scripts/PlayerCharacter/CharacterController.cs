@@ -13,6 +13,9 @@ public class CharacterController : MonoBehaviour
     [SerializeField] private Transform groundCheck;
 	[SerializeField] private LayerMask groundLayer;
 	[SerializeField] private GameObject hitbox;
+	private DashTrail trail;
+	private bool canRotate = true;
+	public static CharacterController instance = null;
 
 	//Basic Movement
 	[Header("Basic Movement")]
@@ -61,6 +64,8 @@ public class CharacterController : MonoBehaviour
 	[SerializeField] private bool canDash;
 
 	public RoomManager roomManager;
+	[Header("Knockback")]
+	public int knockbackForce = 10;
 
     //DropDown
     CircleCollider2D feetCollider;
@@ -73,11 +78,22 @@ public class CharacterController : MonoBehaviour
     BoxCollider2D bodyCollider;
 
 	//Unlocker
-	[Header("Progression Tracker")]
-	public ProgressionTracker tracker;
+	private ProgressionTracker tracker;
 
-    // Start is called before the first frame update
-    void Start()
+	private void Awake()//Singleton
+	{
+		if (instance == null)
+		{
+			instance = this;
+		}
+		else if (instance != this)
+		{
+			Destroy(gameObject);
+		}
+	}
+
+	// Start is called before the first frame update
+	void Start()
 	{
 		rigid = GetComponent<Rigidbody2D>();
 		animator = GetComponent<Animator>();
@@ -85,7 +101,9 @@ public class CharacterController : MonoBehaviour
         manager = GameManager.instance;
         feetCollider = GetComponentInChildren<CircleCollider2D>();
         bodyCollider = GetComponentInChildren<BoxCollider2D>();
-    }
+		trail = GetComponentInChildren<DashTrail>();
+		tracker = ProgressionTracker.instance;
+	}
 
 
 	private void Update()
@@ -131,14 +149,26 @@ public class CharacterController : MonoBehaviour
 		if (hMove > 0) //Flip sprite depending on the direction the player is moving
 		{
 			//Moving right
-			spriteRenderer.flipX = true;
+			//spriteRenderer.flipX = true;
+			if (canRotate == true)
+			{
+				transform.localRotation = Quaternion.Euler(0, 180, 0);
+			}
+			
 			direction = 1;
+
 		}
 		if (hMove < 0)
 		{
 			//Moving left
-			spriteRenderer.flipX = false;
+			//spriteRenderer.flipX = false;
+			if (canRotate == true)
+			{
+				transform.localRotation = Quaternion.Euler(0, 0, 0);
+			}
+			
 			direction = -1;
+
 		}
 	}
 
@@ -296,7 +326,7 @@ public class CharacterController : MonoBehaviour
 	{
 		if (tracker.unlockDash == true)
 		{
-			if (canDash == true)
+			if (canDash == true && isJumping == false)
 			{
 				if (Input.GetButtonDown("Dash") && isDashing == false)
 				{
@@ -314,11 +344,15 @@ public class CharacterController : MonoBehaviour
 
 	IEnumerator DashCo()
 	{
+		canRotate = false;
 		isDashing = true;
+		trail.SetEnabled(true);
 		rigid.velocity = new Vector2(rigid.velocity.x, 0f);
-		if(hMove == 0)
+
+		if (hMove == 0)
 		{
 			rigid.AddForce(new Vector2(dashDistance * direction * 2.5f, 0f), ForceMode2D.Impulse);
+			
 		}
 		else
 		{
@@ -327,12 +361,15 @@ public class CharacterController : MonoBehaviour
 		
 		float gravity = rigid.gravityScale;
 		rigid.gravityScale = 0;
+		
 
 		yield return new WaitForSeconds(0.4f);
 
 		hitbox.SetActive(true);
+		canRotate = true;
 		isDashing = false;
 		rigid.gravityScale = 1;
+		trail.SetEnabled(false);
 	}
 
 	public IEnumerator Knockback(float knockDur, float knockbackPwr, Vector3 knockbackDir)
@@ -344,7 +381,7 @@ public class CharacterController : MonoBehaviour
 
 			timer += Time.deltaTime;
 
-			rigid.AddForce(new Vector3(direction * -75, knockbackDir.y * knockbackPwr, transform.position.z));
+			rigid.AddForce(new Vector3(direction * -knockbackForce, knockbackDir.y * knockbackPwr, transform.position.z));
 
 		}
 		yield return 0;
@@ -392,7 +429,6 @@ public class CharacterController : MonoBehaviour
         if (hit.collider != null) {
             try {
                 obj = hit.collider.GetComponent<Interactable>();
-                Debug.Log(obj.CanInteract);
                 if (obj.CanInteract)
                     obj.OnInteract();
                 else

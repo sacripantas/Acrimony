@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class SaleButton : MonoBehaviour
 {
-    private static UIManager uiManager;
+    private static ShopUIManager shopManager;
     private Item singleItem;
     public float pos;
         
     // Start is called before the first frame update
     void Start()
     {
-        uiManager = UIManager.instance;
+        shopManager = ShopUIManager.instance;
     }
 
     // Update is called once per frame
@@ -21,12 +22,24 @@ public class SaleButton : MonoBehaviour
         
     }
 
-    public void SetItem(Item item) {
+    public void SetItem(Item item, bool isBuy) {
         this.singleItem = item;
         gameObject.GetComponentsInChildren<Image>()[1].sprite = singleItem.sprite;
-        gameObject.GetComponentsInChildren<Text>()[0].text = singleItem.ItemName;
-        gameObject.GetComponentsInChildren<Text>()[1].text = "$" + singleItem.BuyPrice.ToString();
+        gameObject.GetComponentsInChildren<Text>()[1].text = singleItem.ItemName;
+        if (isBuy) {
+            gameObject.GetComponentsInChildren<Text>()[2].text = "$" + singleItem.BuyPrice.ToString();
+            gameObject.GetComponentsInChildren<Text>()[0].text = "0";
+            gameObject.GetComponentsInChildren<Text>()[0].enabled = !isBuy;
+        } else {
+            gameObject.GetComponentsInChildren<Text>()[2].text = "$" + singleItem.SellPrice.ToString();            
+            gameObject.GetComponentsInChildren<Text>()[0].text = singleItem.Stacked.ToString();
+            if (singleItem.Stacked <= 0)
+                gameObject.GetComponentsInChildren<Text>()[0].enabled = isBuy;
+            else
+                gameObject.GetComponentsInChildren<Text>()[0].enabled = !isBuy;
+        }
     }
+
 
     public void SetPosition(float pos) {
         this.pos = pos;
@@ -43,7 +56,17 @@ public class SaleButton : MonoBehaviour
     }
 
     public void ItemSelected() {
-        uiManager.descPanel.text = singleItem.Description;
-        uiManager.statsPane.text = singleItem.ToString();
+        if (singleItem && shopManager) {
+            shopManager.descText.text = singleItem.Description;
+            shopManager.statsText.text = singleItem.ToString();
+            shopManager.selectedItem = singleItem;
+        }
+    }
+    private void OnEnable() {
+        SetSelectedUI();
+    }
+
+    public void SetSelectedUI() {
+        gameObject.GetComponent<Selectable>().Select();
     }
 }

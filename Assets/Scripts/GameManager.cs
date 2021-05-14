@@ -40,17 +40,17 @@ public class GameManager : MonoBehaviour
     {
         
     }
-
     //respawns player in active respawner
     void SpawnHandler() {
-        if (respawners.Count == 0) return;
+		if (respawners.Count == 0) return;
         foreach(Respawner r in respawners) {
             if (r.isActive) {
                 player.transform.localPosition = r.Position;
-                return;
+				return;
             }
         }
         player.transform.localPosition = respawners[0].Position; //if no spawner is active, respawns on the first spawner of the scene
+		
     }
 
     // to be called upon death
@@ -61,7 +61,6 @@ public class GameManager : MonoBehaviour
     }
 
     public void Pause(bool flag) {
-        Debug.Log("Pausing:" + flag);
         if (flag) Time.timeScale = 0f;
         else Time.timeScale = 1f;
         isPaused = flag;
