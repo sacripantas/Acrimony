@@ -64,8 +64,10 @@ public class CharacterController : MonoBehaviour
 	[SerializeField] private bool canDash;
 
 	public RoomManager roomManager;
+	//Knockback
 	[Header("Knockback")]
-	public int knockbackForce = 10;
+	public float knockbackForce;
+	private bool isKnockbacked;
 
     //DropDown
     CircleCollider2D feetCollider;
@@ -129,46 +131,49 @@ public class CharacterController : MonoBehaviour
 
 	public void Walk()
 	{
-		if (!crouch) //Normal WalkSpeed
+		if(isKnockbacked == false)
 		{
-			hMove = Input.GetAxisRaw("Horizontal") * runSpeed;
-			animator.SetFloat("Speed", Mathf.Abs(hMove));
-
-			if (!isDashing)
+			if (!crouch) //Normal WalkSpeed
 			{
+				hMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+				animator.SetFloat("Speed", Mathf.Abs(hMove));
+
+				if (!isDashing)
+				{
+					rigid.velocity = new Vector2(hMove * runSpeed, rigid.velocity.y);
+				}
+
+			}
+			else//Crouch speed
+			{
+				hMove = Input.GetAxisRaw("Horizontal") * (runSpeed * crouchSpeed);
+				animator.SetFloat("Speed", Mathf.Abs(hMove));
 				rigid.velocity = new Vector2(hMove * runSpeed, rigid.velocity.y);
 			}
-
-		}
-		else//Crouch speed
-		{
-			hMove = Input.GetAxisRaw("Horizontal") * (runSpeed * crouchSpeed);
-			animator.SetFloat("Speed", Mathf.Abs(hMove));
-			rigid.velocity = new Vector2(hMove * runSpeed, rigid.velocity.y);
-		}
-		if (hMove > 0) //Flip sprite depending on the direction the player is moving
-		{
-			//Moving right
-			//spriteRenderer.flipX = true;
-			if (canRotate == true)
+			if (hMove > 0) //Flip sprite depending on the direction the player is moving
 			{
-				transform.localRotation = Quaternion.Euler(0, 180, 0);
-			}
-			
-			direction = 1;
+				//Moving right
+				//spriteRenderer.flipX = true;
+				if (canRotate == true)
+				{
+					transform.localRotation = Quaternion.Euler(0, 180, 0);
+				}
 
-		}
-		if (hMove < 0)
-		{
-			//Moving left
-			//spriteRenderer.flipX = false;
-			if (canRotate == true)
+				direction = 1;
+
+			}
+			if (hMove < 0)
 			{
-				transform.localRotation = Quaternion.Euler(0, 0, 0);
-			}
-			
-			direction = -1;
+				//Moving left
+				//spriteRenderer.flipX = false;
+				if (canRotate == true)
+				{
+					transform.localRotation = Quaternion.Euler(0, 0, 0);
+				}
 
+				direction = -1;
+
+			}
 		}
 	}
 
@@ -363,7 +368,7 @@ public class CharacterController : MonoBehaviour
 		rigid.gravityScale = 0;
 		
 
-		yield return new WaitForSeconds(0.4f);
+		yield return new WaitForSeconds(0.6f);
 
 		hitbox.SetActive(true);
 		canRotate = true;
@@ -372,19 +377,22 @@ public class CharacterController : MonoBehaviour
 		trail.SetEnabled(false);
 	}
 
-	public IEnumerator Knockback(float knockDur, float knockbackPwr, Vector3 knockbackDir)
+	public IEnumerator Knockback()
 	{
-
+		isKnockbacked = true;
+		canRotate = false;
+		rigid.gravityScale = 0;
 		float timer = 0;
-		while (knockDur > timer)
+		while (0.6f > timer)
 		{
-
 			timer += Time.deltaTime;
-
-			rigid.AddForce(new Vector3(direction * -knockbackForce, knockbackDir.y * knockbackPwr, transform.position.z));
-
+			rigid.velocity = new Vector2(-knockbackForce, 0f);
 		}
-		yield return 0;
+		
+		yield return new WaitForSeconds(0.6f);
+		canRotate = true;
+		rigid.gravityScale = 1;
+		isKnockbacked = false;
 	}
 
 	private void DropDown()
@@ -434,8 +442,9 @@ public class CharacterController : MonoBehaviour
                 else
                     Debug.Log("Interactable but cant interact right now");
             }
-            catch {
+            catch(System.Exception e) {
                 Debug.Log("Not interactable");
+                Debug.Log(e.ToString());
                 return;
             }
            

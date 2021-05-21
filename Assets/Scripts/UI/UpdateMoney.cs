@@ -56,15 +56,7 @@ public class UpdateMoney : MonoBehaviour {
 
     public void Anim(string trigger) {
         TextMeshProUGUI txt = Instantiate(textSpent);
-        /*
-        if (ShopUIManager.instance.shopType == 1) {
-            this.textSpent.SetText("- $" + ShopUIManager.instance.selectedItem.BuyPrice);
-            this.textSpent.color = buyColor;
-        }else if(ShopUIManager.instance.shopType == 2) {
-            this.textSpent.SetText("+ $" + ShopUIManager.instance.selectedItem.SellPrice);
-            this.textSpent.color = sellColor;
-        }
-        */
+        
         if (ShopUIManager.instance.shopType == 1) {
             txt.SetText("- $" + ShopUIManager.instance.selectedItem.BuyPrice);
             txt.color = buyColor;
@@ -72,11 +64,10 @@ public class UpdateMoney : MonoBehaviour {
             txt.SetText("+ $" + ShopUIManager.instance.selectedItem.SellPrice);
             txt.color = sellColor;
         }
-        //anim.SetTrigger(trigger);
         txt.transform.SetParent(this.gameObject.transform);
         txt.transform.localScale = new Vector3(1f, 1f, 1f);
         txt.transform.localPosition = Vector3.zero;
-        txt.transform.localPosition = new Vector3(-100f,0f,0f);
+        txt.transform.localPosition = new Vector3(-43f,0f,0f);
         txt.GetComponent<Animator>().SetTrigger(trigger);
     }    
 }

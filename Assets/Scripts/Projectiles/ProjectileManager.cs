@@ -12,6 +12,7 @@ public class ProjectileManager : MonoBehaviour
 	//References
 	private PlayerManager playerManager;
 	private CharacterController character;
+	private ProgressionTracker tracker;
 	public FireBall fireBall;
 	public IceBall iceBall;
 	public CharmBall charmBall;
@@ -26,7 +27,7 @@ public class ProjectileManager : MonoBehaviour
 	public float charmCooldown = 3f;
 	private float nextCharmTime = 0;
 
-	public ProgressionTracker tracker;
+	//public ProgressionTracker tracker;
 
 	//
 	enum Projectile
@@ -42,6 +43,7 @@ public class ProjectileManager : MonoBehaviour
 	{
 		playerManager = PlayerManager.instance;
 		character = CharacterController.instance;
+		tracker = ProgressionTracker.instance;
 
 		currentProjectile = Projectile.Fire;
 	}
@@ -84,61 +86,67 @@ public class ProjectileManager : MonoBehaviour
 
 	void SpawnFireball()
 	{
-		if (Input.GetButton("Projectile"))
+		if(tracker.unlockProjectileFire == true)
 		{
-			if (Time.time > nextFireTime)
+			if (Input.GetButton("Projectile"))
 			{
-				if (playerManager.currentMana <= fireBall.manaCost - 1)
+				if (Time.time > nextFireTime)
 				{
-					Debug.Log("Not enough mana");
-				}
-				else
-				{
-					playerManager.currentMana -= fireBall.manaCost;
-
-					if (character.direction == 1)
+					if (playerManager.currentMana <= fireBall.manaCost - 1)
 					{
-						fireBall.direction = 1;
+						Debug.Log("Not enough mana");
 					}
 					else
 					{
-						fireBall.direction = -1;
-					}
-					GameObject tempFire = Instantiate(fireballPrefab);
-					tempFire.transform.position = projectileSpawner.transform.position;
+						playerManager.currentMana -= fireBall.manaCost;
 
-					nextFireTime = Time.time + fireCooldown;
+						if (character.direction == 1)
+						{
+							fireBall.direction = 1;
+						}
+						else
+						{
+							fireBall.direction = -1;
+						}
+						GameObject tempFire = Instantiate(fireballPrefab);
+						tempFire.transform.position = projectileSpawner.transform.position;
+
+						nextFireTime = Time.time + fireCooldown;
+					}
 				}
-			}		
+			}
 		}
 	}
 
 	void SpawnIceball()
 	{
-		if (Input.GetButton("Projectile"))
+		if(tracker.unlockProjectileIce == true)
 		{
-			if (Time.time > nextIceTime)
+			if (Input.GetButton("Projectile"))
 			{
-				if (playerManager.currentMana <= iceBall.manaCost - 1)
+				if (Time.time > nextIceTime)
 				{
-					Debug.Log("Not enough mana");
-				}
-				else
-				{
-					playerManager.currentMana -= iceBall.manaCost;
-
-					if (character.direction == 1)
+					if (playerManager.currentMana <= iceBall.manaCost - 1)
 					{
-						iceBall.direction = 1;
+						Debug.Log("Not enough mana");
 					}
 					else
 					{
-						iceBall.direction = -1;
-					}
-					GameObject tempIce = Instantiate(iceballPrefab);
-					tempIce.transform.position = projectileSpawner.transform.position;
+						playerManager.currentMana -= iceBall.manaCost;
 
-					nextIceTime = Time.time + iceCooldown;
+						if (character.direction == 1)
+						{
+							iceBall.direction = 1;
+						}
+						else
+						{
+							iceBall.direction = -1;
+						}
+						GameObject tempIce = Instantiate(iceballPrefab);
+						tempIce.transform.position = projectileSpawner.transform.position;
+
+						nextIceTime = Time.time + iceCooldown;
+					}
 				}
 			}
 		}
@@ -146,32 +154,35 @@ public class ProjectileManager : MonoBehaviour
 
 	void SpawnCharmball()
 	{
-		if (Input.GetButton("Projectile"))
+		if (tracker.unlockProjectileCharm == true)
 		{
-			if (Time.time > nextCharmTime)
+			if (Input.GetButton("Projectile"))
 			{
-				if (playerManager.currentMana <= charmBall.manaCost - 1)
+				if (Time.time > nextCharmTime)
 				{
-					Debug.Log("Not enough mana");
-				}
-				else
-				{
-					playerManager.currentMana -= charmBall.manaCost;
-
-					if (character.direction == 1)
+					if (playerManager.currentMana <= charmBall.manaCost - 1)
 					{
-						charmBall.direction = 1;
+						Debug.Log("Not enough mana");
 					}
 					else
 					{
-						charmBall.direction = -1;
-					}
-					GameObject tempCharm = Instantiate(charmballPrefab);
-					tempCharm.transform.position = projectileSpawner.transform.position;
+						playerManager.currentMana -= charmBall.manaCost;
 
-					nextCharmTime = Time.time + charmCooldown;
+						if (character.direction == 1)
+						{
+							charmBall.direction = 1;
+						}
+						else
+						{
+							charmBall.direction = -1;
+						}
+						GameObject tempCharm = Instantiate(charmballPrefab);
+						tempCharm.transform.position = projectileSpawner.transform.position;
+
+						nextCharmTime = Time.time + charmCooldown;
+					}
 				}
 			}
-		}
+		}		
 	}
 }

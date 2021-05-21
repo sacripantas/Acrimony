@@ -6,7 +6,12 @@ using Pathfinding;
 
 public class RoomManager : MonoBehaviour
 {
+	[Header("Camera")]
 	public GameObject virtualCamera;
+
+	[Header("Minimap Panels")]
+	public GameObject lockedPanel;
+	public GameObject activePanel;
 
 	//List of enemies per room
 	public GameObject[] enemies;
@@ -20,13 +25,14 @@ public class RoomManager : MonoBehaviour
 	{
 		localRigid = characterController.GetComponent<Rigidbody2D>();
 		localAnimator = characterController.GetComponent<Animator>();
-
 	}
 
 	private void OnTriggerEnter2D(Collider2D other)
 	{
 		if (other.CompareTag("TransitionCheck") && !other.isTrigger)
 		{
+			lockedPanel.SetActive(false);
+			activePanel.SetActive(true);
 			virtualCamera.SetActive(true);
 			
 			foreach(GameObject enemy in enemies)
@@ -47,6 +53,7 @@ public class RoomManager : MonoBehaviour
 			
 			StartCoroutine(RoomTransition());
 			virtualCamera.SetActive(false);
+			activePanel.SetActive(false);
 
 			foreach (GameObject enemy in enemies)
 			{

@@ -99,7 +99,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 62c5e23d186e42d428db49f53ce0cd5d, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
@@ -137,10 +137,8 @@ MonoBehaviour:
   text: Press "W" to see the shop.
   TMPText: {fileID: 7969675824544387465}
   sale:
-  - {fileID: 7256739248968563268, guid: b5f1564857b2eba4696e012f15454ee9, type: 3}
   - {fileID: 1035458384422132405, guid: 6980016063d29a34abddb048a96bd0a8, type: 3}
   - {fileID: 5786201716043335980, guid: 9bd5687926c0c5d46b9d109381c71612, type: 3}
-  - {fileID: 6630785067587695936, guid: c4de8a4af12b7a747ad0db95099df9e6, type: 3}
   - {fileID: 2479435132229211696, guid: 2aa3611e8d5def74fa3ab46fdec96705, type: 3}
 --- !u!114 &966680072
 MonoBehaviour:
@@ -156,7 +154,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 0}
   npcSprite: {fileID: 0}
-  names: 
 --- !u!1001 &8642327302277645450
 PrefabInstance:
   m_ObjectHideFlags: 0

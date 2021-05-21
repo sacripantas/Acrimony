@@ -10,29 +10,23 @@ public class GetNPCSprite : MonoBehaviour
     private Image image;
 
     [SerializeField]
-    private Sprite npcSprite;
-
-    [SerializeField]
-    private string names;
-
-    [SerializeField]
-    private Animator anim;
+    private SpriteRenderer npcSprite;
         
     // Start is called before the first frame update
     void Start()
     {
-        this.npcSprite = gameObject.GetComponent<SpriteRenderer>().sprite;
-        this.anim = gameObject.GetComponent<Animator>();
-        //this.image.GetComponent<Animator>().runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("GroundEnemy");
+        this.npcSprite = gameObject.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        //set the sprite each update time that the panel is active
+        this.image.sprite = this.npcSprite.sprite;
     }
 
     public void SetSpriteOnScreen() {
-        this.image.sprite = this.npcSprite;
+        this.image.sprite = this.npcSprite.sprite;//set first sprite when starting
         this.image.preserveAspect = true;
     }
 }

@@ -36,11 +36,12 @@ public class InventoryHandler : MonoBehaviour {
     void Start() {
         if (itemsQty == 0) itemsQty = 20;
         ivnUIManager = InventoryUIManager.instance;
+        Debug.Log("Handler");
     }
 
     // Update is called once per frame
     void Update() {
-
+        
     }
     // checks if the inventory still has available space
     public bool HasSpace() {

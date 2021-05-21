@@ -56,7 +56,8 @@ public class InventoryUIManager : MonoBehaviour
         isActive = false;
         invScreen.SetActive(true);
         invScreen.SetActive(false);
-        dragImage.enabled = false;       
+        dragImage.enabled = false;
+        manager.LoadInventory();
     }
 
     // Update is called once per frame
@@ -77,12 +78,17 @@ public class InventoryUIManager : MonoBehaviour
         if (!manager.isPaused ^ isActive) {
             isActive = !isActive;
             manager.Pause(isActive); //pauses time
-            this.invScreen.SetActive(isActive); //activates inventory screen
+            //this.invScreen.SetActive(isActive); //activates inventory screen
             uiMng.SetUIVisible(!isActive); //deactivate player UI
             if (isActive) UpdateInventory(InventoryHandler.instance.Inventory);
+            GetComponent<Animator>().SetBool("open", isActive);
         }
     }
 
+    //called by animation
+    public void ActivateScreen() {
+        this.invScreen.SetActive(isActive);
+    }
     //update visual on inventory
     public void UpdateInventory(List<Item> items) {
         for (int i = 0; i < ivnBtns.Count; i++) {

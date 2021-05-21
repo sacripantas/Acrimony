@@ -5,7 +5,11 @@ using UnityEngine;
 /*
  * ***Item class should not be instantiated ***
  */
+
 public class Item : Interactable {
+    [SerializeField]
+    [Tooltip("Unique ID - Each item must have an unique ID for restoring")]
+    private int id;
 
     [SerializeField]
     [Tooltip("Sprite for the item - mandatory")]
@@ -42,10 +46,11 @@ public class Item : Interactable {
     public int SellPrice { get => sellPrice; }
     public int CanStack { get => stacking; }
     public int Stacked { get => currStacked; set => currStacked = value; }
+    public int UniqueID { get => id; }
     // Start is called before the first frame update
     void Start()
     {
-        
+        Debug.Log(sprite.name);
     }
 
     // Update is called once per frame

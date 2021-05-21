@@ -43,6 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bee07bdef81f914da23fecf97d21932, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 4
   sprite: {fileID: 4986490438483154868, guid: e084e5aebacaf4649bc5d491886fd7aa, type: 3}
   itemName: Stinky Fruit
   desc: 'This reeks! It is probably not a good idea to eat it...

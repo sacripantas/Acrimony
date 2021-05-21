@@ -54,10 +54,8 @@ public class PlayerManager : MonoBehaviour
 	{
 		ui = UIManager.instance;
 
-		currentHealth = maxHealth;
 		ui.SetMaxHealth(maxHealth);
 
-		currentMana = maxMana;
 		ui.SetMaxMana(maxMana);
 
         manager = GameManager.instance;
@@ -92,7 +90,13 @@ public class PlayerManager : MonoBehaviour
 		}
 	}
 	/*******/
-
+    //Set player stats;
+    public void SetPlayer(int hp, int mana, int money, int ammo) {
+        this.currentHealth = hp;
+        this.currentMana = mana;
+        this.currentMoney = money;
+        this.currentAmmo = ammo;
+    }
 	//==========================================================================VALUE CHANGERS========================================================================
 	void ChangeMana()
 	{
@@ -178,7 +182,7 @@ public class PlayerManager : MonoBehaviour
 
 	public IEnumerator IFramesHandler()
 	{
-        StartCoroutine(characterController.Knockback(0.5f, 1, transform.position));
+        StartCoroutine(characterController.Knockback());
 		int temp = 0;
 		hitbox.enabled = false;
 		while(temp < numberOfFlashes)

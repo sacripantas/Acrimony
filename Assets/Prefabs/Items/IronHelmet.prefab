@@ -60,6 +60,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa4cbb83c3241b7418929ff225076801, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 3
   sprite: {fileID: -3383014829254140255, guid: e084e5aebacaf4649bc5d491886fd7aa, type: 3}
   itemName: Iron Helmet
   desc: 'A helmet made of iron. '

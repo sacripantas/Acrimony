@@ -60,6 +60,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d0513383f9f07940b1f35ca7da1a0ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 1
   sprite: {fileID: -8955824253493611034, guid: e084e5aebacaf4649bc5d491886fd7aa, type: 3}
   itemName: Health Potion
   desc: Upon consuming this weird red liquid the player is bound to feel much more

@@ -60,6 +60,7 @@ public class ShopUIManager : MonoBehaviour {
 
     public int shopType = 0; //0 -> nothing selected, 1 -> buy, 2 -> sell
 
+    private bool canvasFlag = false;
     void Awake() {
         if (instance == null) {
             instance = this;
@@ -72,6 +73,7 @@ public class ShopUIManager : MonoBehaviour {
     // Start is called before the first frame update
     void Start()
     {
+        canvasFlag = false;
         uiManager = UIManager.instance;
         manager = GameManager.instance;
         inventory = InventoryHandler.instance;
@@ -91,19 +93,24 @@ public class ShopUIManager : MonoBehaviour {
         uiManager.SetUIVisible(!flag);
         saleItems = sale;
         ChooseShop("PanelVendor");
-        //manager.Pause(flag);
+        manager.Pause(flag);
+        GetComponent<Animator>().SetBool("open", flag);
     }
 
     //close shop
     public void CloseShop(bool flag = false) {
-        this.shopCanvas.enabled = flag;
+        GetComponent<Animator>().SetBool("open", flag);
+        //this.shopCanvas.enabled = flag;
         uiManager.SetUIVisible(!flag);
         saleItems = null;
         selectedItem = null;
-        foreach (GameObject panel in shopPanels) panel.SetActive(flag);
+        //foreach (GameObject panel in shopPanels) panel.SetActive(flag);
         manager.Pause(flag);
     }
-
+    public void ActivateCanvas() {
+        canvasFlag = !canvasFlag;
+        this.shopCanvas.enabled = canvasFlag;
+    }
     //Shows selected panel
     public void ChooseShop(string panelName) {        
         foreach (GameObject panel in shopPanels) {

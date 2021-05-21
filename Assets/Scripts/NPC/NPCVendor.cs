@@ -16,11 +16,19 @@ public class NPCVendor : NPCBehaviour
     void Start()
     {
         shopManager = ShopUIManager.instance;
+        GetComponent<GetNPCSprite>().enabled = false;
     }    
+
+    new void Update() {
+        base.Update();
+        if(!canInteract)
+            GetComponent<GetNPCSprite>().enabled = false;
+    }
 
     public override void OnInteract() {
         gameObject.GetComponent<GetNPCSprite>().SetSpriteOnScreen();
         shopManager.OpenShop(true, sale);
+        GetComponent<GetNPCSprite>().enabled = true;
         this.TMPText.SetText("Come back again");        
     }
 }
