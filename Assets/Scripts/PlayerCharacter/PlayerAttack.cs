@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     private static GameManager manager;
+	private PauseMenuManager pauseMenuManager;
 	public static PlayerAttack instance = null;
 
 	//General
@@ -49,13 +50,16 @@ public class PlayerAttack : MonoBehaviour
 	void Start()
 	{
         manager = GameManager.instance;
+		pauseMenuManager = PauseMenuManager.instance;
     }
 	// Update is called once per frame
 	void Update()
     {
-        if (manager.isPaused) return; //if the game is paused, dont attack
-		SwipeAttack();
-		LungeAttack();
+		if(!manager.isPaused)
+		{
+			SwipeAttack();
+			LungeAttack();
+		}		
 
 		if (character.direction == 1)
 		{

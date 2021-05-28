@@ -6,7 +6,8 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
 	//General
-	public float health = 3;
+	public float maxHealth = 3f;
+	public float health;
 	public float speed = 3f;
 	public int contactDamage = 25;
 	public int currency = 0;
@@ -21,6 +22,8 @@ public class EnemyManager : MonoBehaviour
     {
 		originalPos = transform.localPosition; //Resets enemy position on respawn
 		playerManager = PlayerManager.instance;
+
+		health = maxHealth;
 	}
 
 	public void TakeDamage(float damage) //Kills the enemy

@@ -100,11 +100,9 @@ public class ShopUIManager : MonoBehaviour {
     //close shop
     public void CloseShop(bool flag = false) {
         GetComponent<Animator>().SetBool("open", flag);
-        //this.shopCanvas.enabled = flag;
         uiManager.SetUIVisible(!flag);
         saleItems = null;
         selectedItem = null;
-        //foreach (GameObject panel in shopPanels) panel.SetActive(flag);
         manager.Pause(flag);
     }
     public void ActivateCanvas() {

@@ -17,7 +17,9 @@ public class GameManager : MonoBehaviour
 
     public bool isPaused;
 
+    [SerializeField]
     private SavePrefs savePrefs;
+    [SerializeField]
     private LoadPrefs loadPrefs;
 
     public SavePrefs SavePrefs { get => savePrefs; }
@@ -30,7 +32,9 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-		StartCoroutine(ScanGraph());
+        savePrefs = GetComponent<SavePrefs>();
+        loadPrefs = GetComponent<LoadPrefs>();
+        StartCoroutine(ScanGraph());
 	}
     // Start is called before the first frame update
     void Start()
@@ -39,8 +43,6 @@ public class GameManager : MonoBehaviour
             //player = Instantiate(player);
         }
         playerManager = PlayerManager.instance;
-        savePrefs = GetComponent<SavePrefs>();
-        loadPrefs = GetComponent<LoadPrefs>();
         LoadSaved();
         SpawnHandler();//spawns the  player upon start
     }
@@ -51,7 +53,7 @@ public class GameManager : MonoBehaviour
         
     }
 
-    //respawns player in active respawner
+    //respawns player in active respawner -> do not use for death
     void SpawnHandler() {
 		if (respawners.Count == 0) return;
         foreach(Respawner r in respawners) {
@@ -72,7 +74,6 @@ public class GameManager : MonoBehaviour
 
     //activate saved spawn
     private void ActivateSpawn() {
-        //DeactivateSpawners();
         int index = loadPrefs.GetRespawner();
         if (respawners.Count == 0 || respawners.Count <= index) return;
         respawners[index].isActive = true;        
@@ -88,6 +89,7 @@ public class GameManager : MonoBehaviour
         SavePrefs.SetAmmo(playerManager.currentAmmo);
         SavePrefs.SetProgression(ProgressionTracker.instance.GetProgression());
         SavePrefs.SetInventory(GetComponent<InventorySaveHelper>().SerializeInventory(InventoryHandler.instance.Inventory));
+        SavePrefs.SetEquipped(GetComponent<InventorySaveHelper>().SerializeInventory(InventoryHandler.instance.Equiped));
 
         try {
             SavePrefs.Save();
@@ -107,7 +109,8 @@ public class GameManager : MonoBehaviour
 
     //to be called after the UI Manager is loaded fully
     public void LoadInventory() {
-        GetComponent<InventorySaveHelper>().DeserializeInventory(LoadPrefs.GetInventory());
+        GetComponent<InventorySaveHelper>().DeserializeInventory(LoadPrefs.GetInventory(), false);
+        GetComponent<InventorySaveHelper>().DeserializeInventory(LoadPrefs.GetEquipped(), true);
     }
 
     //returns Spawner Index or -1 if not present
@@ -123,9 +126,14 @@ public class GameManager : MonoBehaviour
 
     // to be called upon death
     public void DeathHandler() {
-        //add death screen, change song, display menu etc.
+        //discards current inventory and equipped items
+        InventoryHandler.instance.ClearItems();
+        //load saved stats
+        this.LoadSaved();
+        //load save inventory and equipped items
+        this.LoadInventory();
+        //respawns player
         this.SpawnHandler();
-        Debug.Log("Died");
     }
 
     public void Pause(bool flag) {

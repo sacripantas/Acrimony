@@ -89,6 +89,7 @@ public class InventoryUIManager : MonoBehaviour
     public void ActivateScreen() {
         this.invScreen.SetActive(isActive);
     }
+
     //update visual on inventory
     public void UpdateInventory(List<Item> items) {
         for (int i = 0; i < ivnBtns.Count; i++) {
@@ -140,7 +141,8 @@ public class InventoryUIManager : MonoBehaviour
 
     public void SetDragged(Item item) {
         beingDragged = item;
-        if (item != null) dragImage.sprite = item.sprite;
+        if (item != null)
+            dragImage.sprite = item.sprite;
     }
 
     public void EnableDragImage(bool flag) {

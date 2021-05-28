@@ -23,7 +23,7 @@ public class ItemUI : MonoBehaviour {
     }
     // Start is called before the first frame update
     protected void Start() {
-
+        ivnUIMng = InventoryUIManager.instance;
     }
 
     // Update is called once per frame

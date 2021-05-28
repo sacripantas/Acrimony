@@ -39,7 +39,12 @@ public class LoadPrefs : MonoBehaviour
     public string GetProgression() {
         return PlayerPrefs.GetString("Progression");
     }
+    //get inventory
     public string GetInventory() {
         return PlayerPrefs.GetString("Inventory");
+    }
+    //get equipped
+    public string GetEquipped() {
+        return PlayerPrefs.GetString("Equipped");
     }
 }

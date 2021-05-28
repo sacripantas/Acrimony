@@ -39,6 +39,7 @@ public class RoomManager : MonoBehaviour
 			{
 				enemy.SetActive(true);
 				enemy.transform.localPosition = enemy.GetComponent<EnemyManager>().originalPos;
+				enemy.GetComponent<EnemyManager>().health = enemy.GetComponent<EnemyManager>().maxHealth;
 			}
 		}
 	}
@@ -48,7 +49,7 @@ public class RoomManager : MonoBehaviour
 		if (other.CompareTag("TransitionCheck") && !other.isTrigger)
 		{
 			//localRigid.constraints = RigidbodyConstraints2D.FreezeAll;
-			Time.timeScale = 0.001f;
+			Time.timeScale = 0.0001f;
 			localAnimator.speed = 0f;
 			
 			StartCoroutine(RoomTransition());

@@ -15,7 +15,9 @@ public class CharacterController : MonoBehaviour
 	[SerializeField] private GameObject hitbox;
 	private DashTrail trail;
 	private bool canRotate = true;
+	private PauseMenuManager pauseMenuManager;
 	public static CharacterController instance = null;
+	private PlayerManager PlayerManager;
 
 	//Basic Movement
 	[Header("Basic Movement")]
@@ -105,28 +107,36 @@ public class CharacterController : MonoBehaviour
         bodyCollider = GetComponentInChildren<BoxCollider2D>();
 		trail = GetComponentInChildren<DashTrail>();
 		tracker = ProgressionTracker.instance;
+		pauseMenuManager = PauseMenuManager.instance;
+		PlayerManager = PlayerManager.instance;
 	}
 
 
 	private void Update()
 	{
-		Jump();
-		WallJump();
-		OnLand();
-		Crouch();
-		OnCrouch();
-		Dash();
+		if(pauseMenuManager.isPaused == false)
+		{
+			Jump();
+			WallJump();
+			OnLand();
+			Crouch();
+			OnCrouch();
+			Dash();
 
-        if (Input.GetKey("s")) //change to getbuttondown
-            TestTile();
-        if (Input.GetButtonDown("Interact")) 
-            IsInteractable();       
+			if (Input.GetKey("s")) //change to getbuttondown
+				TestTile();
+			if (Input.GetButtonDown("Interact"))
+				IsInteractable();
+		}	   
     }
 
 	void FixedUpdate()
 	{
-		Walk();
-		GravityHandler();
+		if(pauseMenuManager.isPaused == false)
+		{
+			Walk();
+			GravityHandler();
+		}
 	}
 
 	public void Walk()
@@ -379,20 +389,23 @@ public class CharacterController : MonoBehaviour
 
 	public IEnumerator Knockback()
 	{
-		isKnockbacked = true;
-		canRotate = false;
-		rigid.gravityScale = 0;
-		float timer = 0;
-		while (0.6f > timer)
+		if(PlayerManager.isDead == false)
 		{
-			timer += Time.deltaTime;
-			rigid.velocity = new Vector2(-knockbackForce, 0f);
-		}
-		
-		yield return new WaitForSeconds(0.6f);
-		canRotate = true;
-		rigid.gravityScale = 1;
-		isKnockbacked = false;
+			isKnockbacked = true;
+			canRotate = false;
+			rigid.gravityScale = 0;
+			float timer = 0;
+			while (0.6f > timer)
+			{
+				timer += Time.deltaTime;
+				rigid.velocity = new Vector2(-knockbackForce, 0f);
+			}
+
+			yield return new WaitForSeconds(0.6f);
+			canRotate = true;
+			rigid.gravityScale = 1;
+			isKnockbacked = false;
+		}		
 	}
 
 	private void DropDown()

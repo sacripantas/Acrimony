@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4804615326950397742}
   - component: {fileID: 7976884302478830847}
-  m_Layer: 0
+  - component: {fileID: 5112611930659158046}
+  m_Layer: 13
   m_Name: Hitbox
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,6 +48,32 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.68
+--- !u!61 &5112611930659158046
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4804615326950397741}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.5, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &4804615327581879343
 GameObject:
   m_ObjectHideFlags: 0
@@ -60,7 +87,7 @@ GameObject:
   - component: {fileID: 4804615327581879336}
   - component: {fileID: 4683163025748618795}
   - component: {fileID: -2497377158622475126}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: IceBall
   m_TagString: Projectile
   m_Icon: {fileID: 0}
@@ -171,8 +198,6 @@ MonoBehaviour:
   damage: 2
   manaCost: 5
   hitBox: {fileID: 4804615326950397742}
-  playerAttack: {fileID: 1145675792658551353, guid: 18b8719eb3b9c984a8b488ee90b43b79, type: 3}
-  character: {fileID: 2668226527095214942, guid: 18b8719eb3b9c984a8b488ee90b43b79, type: 3}
   projectileManager: {fileID: 1004855942199337010, guid: 896f4fc03cffd2f418273323de84b0b4, type: 3}
 --- !u!50 &-2497377158622475126
 Rigidbody2D:

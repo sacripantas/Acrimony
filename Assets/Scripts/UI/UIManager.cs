@@ -12,6 +12,10 @@ public class UIManager : MonoBehaviour
     private static PlayerManager playerManager;
     private static InventoryHandler inventory;
 	private StatusEffectManager effectManager;
+    //Minimap
+    [SerializeField]
+    [Tooltip("Gameobject for minimap")]
+    private GameObject minimap;
 
 	//HealthBar
 	[Header("Player Health")]
@@ -93,6 +97,7 @@ public class UIManager : MonoBehaviour
         this.manaBar.gameObject.SetActive(flag);
         this.ammo.gameObject.SetActive(flag);
         this.money.gameObject.SetActive(flag);
+        this.minimap.gameObject.SetActive(flag);
     }
 
 	public void SetCurrency(int currency)

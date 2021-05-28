@@ -112,9 +112,12 @@ public class PlayerManager : MonoBehaviour
 	}
 
 	public void TakeDamage(int damage)
-	{
-        StartCoroutine(IFramesHandler());
-		currentHealth -= damage;		
+	{		    
+		currentHealth -= damage;
+		if (currentHealth - damage >= 0)
+		{
+			StartCoroutine(IFramesHandler());
+		}
 	}
 
 	public void ReceiveHealth(int heal)
@@ -164,12 +167,14 @@ public class PlayerManager : MonoBehaviour
 		
 		if (currentHealth <= 0) //Resets hp to 100 on death
 		{
+            /*
 			isDead = true;
-			
 			manager.DeathHandler();
 			currentHealth = maxHealth;
 			currentAmmo = currentAmmo / 2;
 			currentMoney = 0;
+            */
+            manager.DeathHandler();
 			StartCoroutine(DeathReset());
 		}
 	}
@@ -182,18 +187,21 @@ public class PlayerManager : MonoBehaviour
 
 	public IEnumerator IFramesHandler()
 	{
-        StartCoroutine(characterController.Knockback());
-		int temp = 0;
-		hitbox.enabled = false;
-		while(temp < numberOfFlashes)
+		if (isDead == false)
 		{
-			spriteRenderer.color = flashColor;
-			yield return new WaitForSeconds(flashDuration);
-			spriteRenderer.color = originalColor;
-			yield return new WaitForSeconds(flashDuration);
-			temp++;
-		}
-		hitbox.enabled = true;
+			StartCoroutine(characterController.Knockback());
+			int temp = 0;
+			hitbox.enabled = false;
+			while (temp < numberOfFlashes)
+			{
+				spriteRenderer.color = flashColor;
+				yield return new WaitForSeconds(flashDuration);
+				spriteRenderer.color = originalColor;
+				yield return new WaitForSeconds(flashDuration);
+				temp++;
+			}
+			hitbox.enabled = true;
+		}     
 	}
 
 	//==========================================================================STATUS EFFECTS========================================================================

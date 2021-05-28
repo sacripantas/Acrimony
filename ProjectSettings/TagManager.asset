@@ -10,6 +10,8 @@ TagManager:
   - TransitionCheck
   - Enemy
   - Projectile
+  - Teleport
+  - Destructible
   layers:
   - Default
   - TransparentFX
@@ -23,8 +25,8 @@ TagManager:
   - Enemy
   - Interactable
   - HoverText
-  - 
-  - 
+  - Destructible
+  - Projectile
   - 
   - 
   - 

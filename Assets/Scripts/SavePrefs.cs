@@ -48,6 +48,10 @@ public class SavePrefs : MonoBehaviour
     public void SetInventory(string inventory) {
         PlayerPrefs.SetString("Inventory", inventory);
     }
+    //Save current equipped items
+    public void SetEquipped(string equipped) {
+        PlayerPrefs.SetString("Equipped", equipped);
+    }
 
     public void Save() {
         PlayerPrefs.Save();

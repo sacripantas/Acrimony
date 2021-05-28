@@ -36,7 +36,6 @@ public class InventoryHandler : MonoBehaviour {
     void Start() {
         if (itemsQty == 0) itemsQty = 20;
         ivnUIManager = InventoryUIManager.instance;
-        Debug.Log("Handler");
     }
 
     // Update is called once per frame
@@ -174,5 +173,13 @@ public class InventoryHandler : MonoBehaviour {
         }
         ivnUIManager.UpdateEquiped(Equiped);
         ivnUIManager.UpdateInventory(Inventory);
+    }
+
+    //clears all items in inventory and equiped
+    public void ClearItems() {
+        foreach (Item i in inventory) Destroy(i.gameObject);
+        foreach (Equipable e in equipped) Destroy(e.gameObject);
+        inventory.Clear();
+        equipped.Clear();
     }
 }

@@ -21,7 +21,9 @@ public class SlotManagerUI : ItemUI {
     [SerializeField]
     [Tooltip("TMP for stack count")]
     private TextMeshProUGUI stackCount;    
-    
+
+    public int X { get => x; }
+    public int Y { get => y; }
     new void Awake() {
         base.Awake();
         itemPos = x * 5 + y;

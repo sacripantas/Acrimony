@@ -29,24 +29,24 @@ public class StatusEffectManager : MonoBehaviour
 	private bool isFreezing;
 	private bool isGrounded;
 
-	public int poisonDmg = 10;
-	public int poisonDuration = 5;
+	//public int poisonDmg = 10;
+	private int poisonDuration;
 
-	public int burnDamage = 50;
-	public int burnDuration = 5;
-	public float burnTick = 1f;
+	//public int burnDamage = 50;
+	private int burnDuration;
+	private float burnTick;
 
-	public int bleedDamage = 40;
-	public int bleedDuration = 10;
-	public float bleedTick = 1f;
+	//public int bleedDamage = 40;
+	private int bleedDuration;
+	private float bleedTick;
 
-	public int healDmg = 10;
-	public int healDuration = 5;
+	//public int healDmg = 10;
+	private int healDuration = 5;
 
-	private float weakDuration = 2f;
-	private float strengthDuration = 2f;
-	private float freezeDuration = 2f;
-	private float groundedDuraion = 2f;
+	private float weakDuration;
+	private float strengthDuration;
+	private float freezeDuration;
+	private float groundedDuraion;
 
 	private float startDamage;
 	private float startLungeDamage;
@@ -71,7 +71,7 @@ public class StatusEffectManager : MonoBehaviour
 
 	[SerializeField] public CurrentStatus current;
 
-	private void Awake()//Singleton
+	private void Awake()
 	{
 		if (instance == null)
 		{
@@ -100,42 +100,42 @@ public class StatusEffectManager : MonoBehaviour
 
 	private void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.J))
-		{
-			Poisoned(poisonDmg, poisonDuration, 1);
-		}
-		if (Input.GetKeyDown(KeyCode.L))
-		{
-			Burning(burnDamage, burnDuration, burnTick);
-		}
-		if (Input.GetKeyDown(KeyCode.K))
-		{
-			//Healed();
-		}
-		if (Input.GetKeyDown(KeyCode.M))
-		{
-			Bleeding(bleedDamage,bleedDuration,bleedTick);
-		}
-		if (Input.GetKeyDown(KeyCode.N))
-		{
-			Freezing();
-		}
-		if (Input.GetKeyDown(KeyCode.O))
-		{
-			Grounded();
-		}
-		if (Input.GetKeyDown(KeyCode.T))
-		{
-			//Weaken();
-		}
-		if (Input.GetKeyDown(KeyCode.Y))
-		{
-			//Strengthen();
-		}
-		if (Input.GetKeyDown(KeyCode.U))
-		{
-			ClearAll();
-		}
+		//if (Input.GetKeyDown(KeyCode.J))
+		//{
+		//	Poisoned(10, poisonDuration, 1);
+		//}
+		//if (Input.GetKeyDown(KeyCode.L))
+		//{
+		//	Burning(10, burnDuration, burnTick);
+		//}
+		//if (Input.GetKeyDown(KeyCode.K))
+		//{
+		//	//Healed();
+		//}
+		//if (Input.GetKeyDown(KeyCode.M))
+		//{
+		//	Bleeding(10, bleedDuration, bleedTick);
+		//}
+		//if (Input.GetKeyDown(KeyCode.N))
+		//{
+		//	Freezing();
+		//}
+		//if (Input.GetKeyDown(KeyCode.O))
+		//{
+		//	Grounded();
+		//}
+		//if (Input.GetKeyDown(KeyCode.T))
+		//{
+		//	//Weaken();
+		//}
+		//if (Input.GetKeyDown(KeyCode.Y))
+		//{
+		//	//Strengthen();
+		//}
+		//if (Input.GetKeyDown(KeyCode.U))
+		//{
+		//	ClearAll();
+		//}
 	}
 
 	public void Healed(int healDmg, int healDuration,float healTick)
@@ -200,6 +200,7 @@ public class StatusEffectManager : MonoBehaviour
 			playerManager.DamageOverTime(totalDmg, duration, tickRate, current);
 			Debug.Log("Poisoned");
 			isPoisoned = true;
+			poisonDuration = duration;
 			poisonContainer.SetActive(true);
 			
 			StartCoroutine(ResetStatus(current));
@@ -214,6 +215,7 @@ public class StatusEffectManager : MonoBehaviour
 			playerManager.DamageOverTime(totalDmg, duration, tickRate, current);
 			Debug.Log("Burning");
 			isBurning = true;
+			burnDuration = duration;
 			burnContainer.SetActive(true);
 			
 			StartCoroutine(ResetStatus(current));
@@ -228,6 +230,7 @@ public class StatusEffectManager : MonoBehaviour
 			playerManager.DamageOverTime(totalDmg, duration, tickRate, current);
 			Debug.Log("Bleeding");
 			isBleeding = true;
+			bleedDuration = duration;
 			bleedContainer.SetActive(true);
 			
 			StartCoroutine(ResetStatus(current));
