@@ -18,12 +18,16 @@ public class GameManager : MonoBehaviour
     public bool isPaused;
 
     [SerializeField]
-    private SavePrefs savePrefs;
+    private SaveHelper saveState;
     [SerializeField]
-    private LoadPrefs loadPrefs;
+    private LoadPrefs loadSave;
 
-    public SavePrefs SavePrefs { get => savePrefs; }
-    public LoadPrefs LoadPrefs { get => loadPrefs; }
+    public SaveHelper SaveState { get => saveState; }
+    public LoadPrefs LoadSave { get => loadSave; }
+
+    private SaveStruct save = new SaveStruct();
+
+    public SaveStruct SavedInMemory { get => save; set => save = value; }
     //singleton
     void Awake() {
         if (instance == null) {
@@ -32,8 +36,8 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        savePrefs = GetComponent<SavePrefs>();
-        loadPrefs = GetComponent<LoadPrefs>();
+        saveState = GetComponent<SaveHelper>();
+        loadSave = GetComponent<LoadPrefs>();
         StartCoroutine(ScanGraph());
 	}
     // Start is called before the first frame update
@@ -74,25 +78,25 @@ public class GameManager : MonoBehaviour
 
     //activate saved spawn
     private void ActivateSpawn() {
-        int index = loadPrefs.GetRespawner();
+        int index = SavedInMemory.position;
         if (respawners.Count == 0 || respawners.Count <= index) return;
         respawners[index].isActive = true;        
     }
 
     //Save current stats on defined spawner
     public void SaveCurrent(int scene, int respawner) {
-        SavePrefs.SetScene(scene);
-        SavePrefs.SetRespawner(respawner);
-        SavePrefs.SetHP(playerManager.currentHealth);
-        SavePrefs.SetMana(playerManager.currentMana);
-        SavePrefs.SetMoney(playerManager.currentMoney);
-        SavePrefs.SetAmmo(playerManager.currentAmmo);
-        SavePrefs.SetProgression(ProgressionTracker.instance.GetProgression());
-        SavePrefs.SetInventory(GetComponent<InventorySaveHelper>().SerializeInventory(InventoryHandler.instance.Inventory));
-        SavePrefs.SetEquipped(GetComponent<InventorySaveHelper>().SerializeInventory(InventoryHandler.instance.Equiped));
+        SaveState.SetScene(scene);
+        SaveState.SetRespawner(respawner);
+        SaveState.SetHP(playerManager.currentHealth);
+        SaveState.SetMana(playerManager.currentMana);
+        SaveState.SetMoney(playerManager.currentMoney);
+        SaveState.SetAmmo(playerManager.currentAmmo);
+        SaveState.SetProgression(ProgressionTracker.instance.GetProgression());
+        SaveState.SetInventory(GetComponent<InventorySaveHelper>().SerializeInventory(InventoryHandler.instance.Inventory));
+        SaveState.SetEquipped(GetComponent<InventorySaveHelper>().SerializeInventory(InventoryHandler.instance.Equiped));
 
         try {
-            SavePrefs.Save();
+            SaveState.Save();
         }
         catch (System.Exception e) {
             Debug.Log("Couldnt save");
@@ -102,15 +106,16 @@ public class GameManager : MonoBehaviour
 
     //Load saved player stats
     private void LoadSaved() {
+        SaveState.LoadSave(); //load the save file content to memory
         ActivateSpawn();
-        playerManager.SetPlayer(LoadPrefs.GetHP(), LoadPrefs.GetMana(), LoadPrefs.GetMoney(), LoadPrefs.GetAmmo());
-        ProgressionTracker.instance.SetProgression(LoadPrefs.GetProgression());
+        playerManager.SetPlayer(SavedInMemory.hp, SavedInMemory.mana, SavedInMemory.money, SavedInMemory.ammo);
+        ProgressionTracker.instance.SetProgression(SavedInMemory.progression);
     }
 
     //to be called after the UI Manager is loaded fully
     public void LoadInventory() {
-        GetComponent<InventorySaveHelper>().DeserializeInventory(LoadPrefs.GetInventory(), false);
-        GetComponent<InventorySaveHelper>().DeserializeInventory(LoadPrefs.GetEquipped(), true);
+        GetComponent<InventorySaveHelper>().DeserializeInventory(SavedInMemory.inventory, false);
+        GetComponent<InventorySaveHelper>().DeserializeInventory(SavedInMemory.equipped, true);
     }
 
     //returns Spawner Index or -1 if not present

@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/Main Menu.unity
+    guid: 3c86ec5ca1ad3394aabdeaa408ca9cfd
+  - enabled: 1
+    path: Assets/Scenes/Level1 - Chapel of The Tainted.unity
+    guid: ae7941ec27afaf448b28dbb8f4f0aec6
   m_configObjects: {}

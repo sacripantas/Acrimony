@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3421673694597349020}
   - component: {fileID: 8881598860283981616}
   - component: {fileID: 2095776772475707884}
+  - component: {fileID: 3999381981736976154}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -51,6 +52,8 @@ MonoBehaviour:
   respawners: []
   player: {fileID: 0}
   isPaused: 0
+  saveState: {fileID: 0}
+  loadPrefs: {fileID: 0}
 --- !u!114 &-5068234732034190135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,6 +73,8 @@ MonoBehaviour:
   unlockProjectileFire: 1
   unlockProjectileIce: 1
   unlockProjectileCharm: 1
+  unlockTeleport0: 0
+  unlockTeleport1: 0
 --- !u!114 &612666542331729728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,16 +96,6 @@ MonoBehaviour:
   strengthContainer: {fileID: 0}
   cleanseContainer: {fileID: 0}
   healContainer: {fileID: 0}
-  poisonDmg: 10
-  poisonDuration: 5
-  burnDamage: 50
-  burnDuration: 5
-  burnTick: 1
-  bleedDamage: 40
-  bleedDuration: 10
-  bleedTick: 1
-  healDmg: 10
-  healDuration: 5
   current: 0
 --- !u!114 &3421673694597349020
 MonoBehaviour:
@@ -144,3 +139,17 @@ MonoBehaviour:
   - {fileID: 5786201716043335980, guid: 9bd5687926c0c5d46b9d109381c71612, type: 3}
   - {fileID: 1035458384422132405, guid: 6980016063d29a34abddb048a96bd0a8, type: 3}
   - {fileID: 7256739248968563268, guid: b5f1564857b2eba4696e012f15454ee9, type: 3}
+--- !u!114 &3999381981736976154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754330382488774710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 176efa5a8c1ad4d4ab4a35980bf35960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  path: 
+  name: 

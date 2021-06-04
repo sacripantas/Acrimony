@@ -8,7 +8,6 @@ public class EnemyManager : MonoBehaviour
 	//General
 	public float maxHealth = 3f;
 	public float health;
-	public float speed = 3f;
 	public int contactDamage = 25;
 	public int currency = 0;
 

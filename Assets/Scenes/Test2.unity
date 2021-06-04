@@ -783,6 +783,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 3421673694597349020, guid: a51c6da6e628e664b9265655c27c1344, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3999381981736976154, guid: a51c6da6e628e664b9265655c27c1344, type: 3}
+      propertyPath: name
+      value: TestUser
+      objectReference: {fileID: 0}
+    - target: {fileID: 3999381981736976154, guid: a51c6da6e628e664b9265655c27c1344, type: 3}
+      propertyPath: saveName
+      value: UserName
+      objectReference: {fileID: 0}
     - target: {fileID: 6710362569259796025, guid: a51c6da6e628e664b9265655c27c1344, type: 3}
       propertyPath: player
       value: 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SavePrefs : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class SavePrefs : MonoBehaviour
 
     //Save the room (scene) the player is currently saved (where 0 => first level, n-1 => last level)
     public void SetScene(int scene) {
+		scene = SceneManager.GetActiveScene().buildIndex;
         PlayerPrefs.SetInt("Scene", scene);
     }
     //Set the position of respawner on Respawner list of GameManager
