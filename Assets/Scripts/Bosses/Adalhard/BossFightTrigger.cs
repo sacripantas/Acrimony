@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class BossFightTrigger : MonoBehaviour
 {
 	public GameObject boss;
-	public GameObject door;
+	//public GameObject door;
+	public Tilemap fireTilemap;
 	private AdalhardDeathHandler handler;
 	private PlayerManager manager;
 
@@ -20,12 +22,12 @@ public class BossFightTrigger : MonoBehaviour
 	{
 		if(handler.isDead == true)
 		{
-			door.SetActive(false);
+			fireTilemap.gameObject.SetActive(true);
 			this.gameObject.SetActive(false);
 		}
 		if (manager.isDead)
 		{
-			door.SetActive(false);
+			fireTilemap.gameObject.SetActive(false);
 		}
 	}
 	private void OnTriggerEnter2D(Collider2D collision)
@@ -33,7 +35,7 @@ public class BossFightTrigger : MonoBehaviour
 		if(collision.gameObject.tag == "Player")
 		{
 			boss.SetActive(true);
-			door.SetActive(true);
+			fireTilemap.gameObject.SetActive(true);
 			Debug.Log("Start");
 			//gameObject.SetActive(false);
 		}

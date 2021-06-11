@@ -13,11 +13,14 @@ public class SaveHelper : MonoBehaviour
     [SerializeField]
     [Tooltip("name for file saving")]
     private string saveName;
+
+    public string SaveName { get => saveName; set => saveName = value; }
+    void Awake() {
+        path = Application.persistentDataPath + "/UserSave/";
+    }
     // Start is called before the first frame update
     void Start() {
         save = GameManager.instance.SavedInMemory;
-        path = Application.persistentDataPath +"/UserSave/";
-        saveName += ".json";
     }
 
     //Save the room (scene) the player is currently saved (where 0 => first level, n-1 => last level)
@@ -56,14 +59,18 @@ public class SaveHelper : MonoBehaviour
     public void SetEquipped(string equipped) {
         save.equipped = equipped;
     }
-
+    //Save current minimap
+    public void SetMinimap(string rooms) {
+        save.miniMapRooms = rooms;
+    }
+    
     public void Save() {
         Debug.Log("Saving at: " + path + saveName);
         //checks if the path exists before saving the file. If not, create;
-        if (System.IO.Directory.Exists(path)) System.IO.Directory.CreateDirectory(path);
+        if (!System.IO.Directory.Exists(path)) System.IO.Directory.CreateDirectory(path);
         string data = JsonUtility.ToJson(this.save);
         try {
-            File.WriteAllText(path + saveName, data);
+            File.WriteAllText(path + saveName + ".json", data);
         }
         catch (System.Exception e) {
             Debug.Log("Could not save file with exception: " + e.ToString());
@@ -71,16 +78,10 @@ public class SaveHelper : MonoBehaviour
     }
 
     public void LoadSave() {
-        Debug.Log("Loading from " + path + saveName);
-        try {
-            string file = File.ReadAllText(path + saveName);
-            save = JsonUtility.FromJson<SaveStruct>(file);
-            GameManager.instance.SavedInMemory = save;
-            Debug.Log("From game manager: " + GameManager.instance.SavedInMemory.scene);
-        }
-        catch (System.Exception e) {
-            Debug.Log("Not possible to load file with exception: " + e.ToString());
-            //initialize game from the beginning 
-        }
+        Debug.Log("Loading from " + path + saveName + ".json");
+        string file = File.ReadAllText(path + saveName + ".json");
+        save = JsonUtility.FromJson<SaveStruct>(file);
+        GameManager.instance.SavedInMemory = save;
+        Debug.Log("From game manager: " + GameManager.instance.SavedInMemory.scene);        
     }
 }

@@ -19,6 +19,8 @@ public class CharacterController : MonoBehaviour
 	public static CharacterController instance = null;
 	private PlayerManager PlayerManager;
 
+	public float time;
+
 	//Basic Movement
 	[Header("Basic Movement")]
 	public float hMove = 1;
@@ -111,9 +113,9 @@ public class CharacterController : MonoBehaviour
 		PlayerManager = PlayerManager.instance;
 	}
 
-
 	private void Update()
 	{
+		time = Time.timeScale;
 		if(pauseMenuManager.isPaused == false)
 		{
 			Jump();

@@ -19,7 +19,7 @@ public class ShadowManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		if (right)
+		if (right && Time.timeScale == 1)
 		{
 			transform.Translate(2 * Time.deltaTime * speed, 0, 0);
 			//transform.localScale = new Vector2(1, 1);
@@ -28,7 +28,7 @@ public class ShadowManager : MonoBehaviour
 			spriteRenderer.flipX = true;
 
 		}
-		else
+		else if(!right && Time.timeScale == 1)
 		{
 			transform.Translate(-2 * Time.deltaTime * speed, 0, 0);
 			//transform.localScale = new Vector2(-1, 1);

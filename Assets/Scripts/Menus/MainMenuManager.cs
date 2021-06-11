@@ -4,13 +4,15 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.IO;
+using TMPro;
 
 public class MainMenuManager : MonoBehaviour
 {
+    public static MainMenuManager instance;
 	public EventSystem eventSystem;
 	public string currentMenu;
 	public string nextMenu;
-	private string localName;
 
 	[Header("Animators")]
 	public Animator mainAnimator;
@@ -18,6 +20,9 @@ public class MainMenuManager : MonoBehaviour
 	public Animator confirmAnimator;
 	public Animator audioAnimator;
 	public Animator videoAnimator;
+	public Animator saveAnimator;
+	public Animator loadAnimator;
+
 
 	[Header("Buttons")]
 	public GameObject startButton;
@@ -29,6 +34,8 @@ public class MainMenuManager : MonoBehaviour
 	public GameObject returnOptions;
 	public GameObject returnAudio;
 	public GameObject returnVideo;
+	public GameObject returnSave;
+	public GameObject returnLoad;
 
 	[Header("Containers")]
 	public GameObject mainMenu;
@@ -36,23 +43,118 @@ public class MainMenuManager : MonoBehaviour
 	public GameObject confirmMenu;
 	public GameObject audioMenu;
 	public GameObject videoMenu;
+	public GameObject saveSlotMenu;
+	public GameObject loadSlotMenu;
 
-	// Start is called before the first frame update
-	void Start()
+
+    [Header("Save Slots")]
+    [SerializeField]
+    [Tooltip("All json files on the folder /UserSaves")]
+    private List<string> currentSaves;
+
+    [SerializeField]
+    [Tooltip("Buttons of Save Slots - Load Game Menu")]
+    private List<GameObject> loadGameSlots;
+
+    [SerializeField]
+    [Tooltip("Buttons of Save Slots - New Game Menu")]
+    private List<GameObject> newGameSlots;
+
+    [SerializeField]
+    [Tooltip("Color for disabled buttons")]
+    private Color disabledColor;
+
+    [SerializeField]
+    [Tooltip("Color for enabled buttons")]
+    private Color enabledColor;
+
+
+    [Header("Save File")]
+    private SaveStruct save = new SaveStruct();
+    // Start is called before the first frame update
+    void Awake() {
+        if (instance == null) {
+            instance = this;
+        } else if (instance != this) {
+            Destroy(gameObject);
+        }
+    }
+
+    void Start()
     {		
 		Cursor.visible = true;		
 		optionsMenu.SetActive(false);
 		confirmMenu.SetActive(false);
 		audioMenu.SetActive(false);
 		videoMenu.SetActive(false);
+        this.LoadSaveFiles();
+    }
+
+    //Creates a new player file
+    public void SetNewPlayer() {//Should use default values
+        save.ammo = 0;
+        save.equipped = "";
+        save.hp = 100;
+        save.inventory = "";
+        save.mana = 100;
+        save.money = 0;
+        save.progression = "000000000"; //All locked
+        save.scene  = 1;
+        save.position = 0;
+        save.miniMapRooms = "01111111111111111111111"; //Every room locked
+    }
+
+    //Save a new file for New Game
+    public void SaveNewPlayer() {
+        //checks if the path exists before saving the file. If not, create;
+        if (!System.IO.Directory.Exists(Application.persistentDataPath + "/UserSave"))
+            System.IO.Directory.CreateDirectory(Application.persistentDataPath + "/UserSave");
+        string data = JsonUtility.ToJson(this.save);
+        try {
+            File.WriteAllText(Application.persistentDataPath + "/UserSave/" + ChoosePlayer.saveSlot + "." + ChoosePlayer.playerName + ".json", data);
+        }
+        catch (System.Exception e) {
+            Debug.Log("Could not save file with exception: " + e.ToString());
+        }
+    }
+
+    public void ReadSavedFile() {
+        ChoosePlayer.playerName = loadGameSlots[ChoosePlayer.saveSlot-1].GetComponentInChildren<TextMeshProUGUI>().text;
+        Debug.Log(ChoosePlayer.saveSlot + "    " + ChoosePlayer.playerName);
+        string file = File.ReadAllText(Application.persistentDataPath + "/UserSave/" + ChoosePlayer.saveSlot + "." + ChoosePlayer.playerName + ".json");
+        save = JsonUtility.FromJson<SaveStruct>(file);
+    }
+
+    public void LoadNewGame() {
+        //Set a new player with default values
+        SetNewPlayer();
+        //Write the new player on the disc
+        SaveNewPlayer();
+        //starts a new game on first level
+        SceneManager.LoadScene(1);
+    }
+
+    public void LoadSavedGame() {
+        //Reads the player file
+        ReadSavedFile();
+        //Loads the saved scene
+        SceneManager.LoadScene(save.scene);
     }
 
 	public void StartNewGame(string name)
 	{		
 		currentMenu = "Start";
-		localName = name;
+		nextMenu = "Save";
+        this.ShowSaveFiles(false);
+		StartCoroutine(FadeOut(currentMenu));        
+    }
+
+	public void LoadGame()
+	{
+		currentMenu = "Main";
+		nextMenu = "Load";
+        this.ShowSaveFiles(true);
 		StartCoroutine(FadeOut(currentMenu));
-		
 	}
 
 	public void OpenOptions()
@@ -97,6 +199,20 @@ public class MainMenuManager : MonoBehaviour
 		StartCoroutine(FadeOut(currentMenu));
 	}
 
+	public void ReturnSaveSlot()
+	{
+		currentMenu = "Save";
+		nextMenu = "Main";
+		StartCoroutine(FadeOut(currentMenu));
+	}
+
+	public void ReturnLoadSlot()
+	{
+		currentMenu = "Load";
+		nextMenu = "Main";
+		StartCoroutine(FadeOut(currentMenu));
+	}
+
 	public void ConfirmAction()
 	{		
 		nextMenu = "Exit";
@@ -108,6 +224,44 @@ public class MainMenuManager : MonoBehaviour
 		currentMenu = "Exit";
 		StartCoroutine(FadeOut(currentMenu));
 	}
+
+    //List all json files in the folder UserSave
+    public void LoadSaveFiles() {
+        foreach (string file in Directory.EnumerateFiles(Application.persistentDataPath + "/UserSave", "*.json")) {
+            currentSaves.Add(file.Split('\\')[1]);
+        }
+    }
+    //Shows all files in the form #.UserName
+    public void ShowSaveFiles(bool isLoad) {
+        if (isLoad) this.EnableAllButtons(loadGameSlots, false); //by default all buttons on "Load Game" are disabled
+        else this.EnableAllButtons(newGameSlots, true); //by default all buttons on "New Game" menu are enabled 
+        string[] tempStr;
+        foreach(string s in currentSaves) {
+            tempStr = s.Split('.');
+            if(tempStr.Length >= 3) {//the file name must be in the format #.UserName.json
+                int index = System.Convert.ToInt32(tempStr[0]);
+                if (isLoad) {//if its loading, only the buttons with active files can be loaded
+                    loadGameSlots[index - 1].GetComponent<Button>().interactable = true;
+                    loadGameSlots[index - 1].GetComponentInChildren<TextMeshProUGUI>().SetText(tempStr[1]);
+                    loadGameSlots[index - 1].GetComponent<Image>().color = enabledColor;
+                } else {//if its new game, cant click on used slots
+                    newGameSlots[index - 1].GetComponent<Button>().interactable = false;
+                    newGameSlots[index - 1].GetComponentInChildren<TextMeshProUGUI>().SetText(tempStr[1]);
+                    newGameSlots[index - 1].GetComponent<Image>().color = disabledColor;
+                }
+            } else {
+                Debug.Log("Wrong type of file name");
+            }
+        }
+    }
+
+    private void EnableAllButtons(List<GameObject> buttons, bool flag) {
+        foreach(GameObject b in buttons) {
+            b.GetComponent<Button>().interactable = flag;
+            if (flag) b.GetComponent<Image>().color = enabledColor;
+            else b.GetComponent<Image>().color = disabledColor;
+        }
+    }
 
 	public void ExitGame()
 	{
@@ -126,8 +280,12 @@ public class MainMenuManager : MonoBehaviour
 		{
 			case "Start":
 				mainAnimator.Play("FadeOutMain");
-				yield return new WaitForSeconds(1.5f);
-				SceneManager.LoadScene(localName);
+				yield return new WaitForSeconds(1f);
+				saveSlotMenu.SetActive(true);
+				mainMenu.SetActive(false);
+				yield return new WaitForSeconds(0.1f);
+				StartCoroutine(FadeIn(nextMenu));
+				//SceneManager.LoadScene(localName);
 				break;
 			case "Main":
 				mainAnimator.Play("FadeOutMain");
@@ -159,6 +317,22 @@ public class MainMenuManager : MonoBehaviour
 				yield return new WaitForSeconds(1f);
 				videoMenu.SetActive(false);
 				optionsMenu.SetActive(true);
+				yield return new WaitForSeconds(0.1f);
+				StartCoroutine(FadeIn(nextMenu));
+				break;
+			case "Save":
+				saveAnimator.Play("FadeOutSave");
+				yield return new WaitForSeconds(1f);
+				saveSlotMenu.SetActive(false);
+				mainMenu.SetActive(true);
+				yield return new WaitForSeconds(0.1f);
+				StartCoroutine(FadeIn(nextMenu));
+				break;
+			case "Load":
+				loadAnimator.Play("FadeOutLoad");
+				yield return new WaitForSeconds(1f);
+				loadSlotMenu.SetActive(false);
+				mainMenu.SetActive(true);
 				yield return new WaitForSeconds(0.1f);
 				StartCoroutine(FadeIn(nextMenu));
 				break;
@@ -199,6 +373,18 @@ public class MainMenuManager : MonoBehaviour
 				videoMenu.SetActive(true);
 				optionsMenu.SetActive(false);
 				videoAnimator.Play("FadeInVideo");
+				yield return new WaitForSeconds(1f);
+				break;
+			case "Save":
+				saveSlotMenu.SetActive(true);
+				mainMenu.SetActive(false);
+				saveAnimator.Play("FadeInSave");
+				yield return new WaitForSeconds(1f);
+				break;
+			case "Load":
+				loadSlotMenu.SetActive(true);
+				mainMenu.SetActive(false);
+				loadAnimator.Play("FadeInLoad");
 				yield return new WaitForSeconds(1f);
 				break;
 			case "Exit":

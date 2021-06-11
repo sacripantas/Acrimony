@@ -28,6 +28,11 @@ public class GameManager : MonoBehaviour
     private SaveStruct save = new SaveStruct();
 
     public SaveStruct SavedInMemory { get => save; set => save = value; }
+
+    [SerializeField]
+    [Tooltip("Name used for saving")]
+    private string playerName;
+
     //singleton
     void Awake() {
         if (instance == null) {
@@ -42,13 +47,17 @@ public class GameManager : MonoBehaviour
 	}
     // Start is called before the first frame update
     void Start()
-    {        
-        if (player == null) {
-            //player = Instantiate(player);
-        }
+    {       
         playerManager = PlayerManager.instance;
+        playerName = ChoosePlayer.playerName;
+        SaveState.SaveName = ChoosePlayer.saveSlot + "." + playerName;
         LoadSaved();
         SpawnHandler();//spawns the  player upon start
+    }
+
+    //Called when its a new game
+    private void NewGame() {
+        Debug.Log("Starting a new game");
     }
 
     // Update is called once per frame
@@ -94,6 +103,7 @@ public class GameManager : MonoBehaviour
         SaveState.SetProgression(ProgressionTracker.instance.GetProgression());
         SaveState.SetInventory(GetComponent<InventorySaveHelper>().SerializeInventory(InventoryHandler.instance.Inventory));
         SaveState.SetEquipped(GetComponent<InventorySaveHelper>().SerializeInventory(InventoryHandler.instance.Equiped));
+        SaveState.SetMinimap(MinimapManager.instance.GetMiniMapRooms());
 
         try {
             SaveState.Save();
@@ -106,14 +116,23 @@ public class GameManager : MonoBehaviour
 
     //Load saved player stats
     private void LoadSaved() {
-        SaveState.LoadSave(); //load the save file content to memory
+        try {
+            SaveState.LoadSave(); //load the save file content to memory
+        }
+        catch (System.Exception e){
+            Debug.Log("Error Loading with exception:" + e.ToString());
+            NewGame();
+            return;
+        }
         ActivateSpawn();
         playerManager.SetPlayer(SavedInMemory.hp, SavedInMemory.mana, SavedInMemory.money, SavedInMemory.ammo);
         ProgressionTracker.instance.SetProgression(SavedInMemory.progression);
+        MinimapManager.instance.SetMiniMapRooms(SavedInMemory.miniMapRooms);
     }
 
     //to be called after the UI Manager is loaded fully
     public void LoadInventory() {
+        //check if there is a file first
         GetComponent<InventorySaveHelper>().DeserializeInventory(SavedInMemory.inventory, false);
         GetComponent<InventorySaveHelper>().DeserializeInventory(SavedInMemory.equipped, true);
     }

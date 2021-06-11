@@ -17,12 +17,13 @@ public class RoomManager : MonoBehaviour
 	public GameObject[] enemies;
 
 	//General
-	public CharacterController characterController;
+	private CharacterController characterController;
 	private Rigidbody2D localRigid;
 	private Animator localAnimator;
 
 	private void Start()
 	{
+		characterController = CharacterController.instance;
 		localRigid = characterController.GetComponent<Rigidbody2D>();
 		localAnimator = characterController.GetComponent<Animator>();
 	}
@@ -48,7 +49,6 @@ public class RoomManager : MonoBehaviour
 	{
 		if (other.CompareTag("TransitionCheck") && !other.isTrigger)
 		{
-			//localRigid.constraints = RigidbodyConstraints2D.FreezeAll;
 			Time.timeScale = 0.0001f;
 			localAnimator.speed = 0f;
 			
@@ -67,7 +67,6 @@ public class RoomManager : MonoBehaviour
 	{
 		yield return new WaitForSecondsRealtime(0.4f);
 		Time.timeScale = 1f;
-		//localRigid.constraints = RigidbodyConstraints2D.FreezeRotation;
 		localAnimator.speed = 1f;
 	}
 }

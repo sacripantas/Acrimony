@@ -9,6 +9,7 @@ public struct SaveStruct {
     public string progression;
     public int scene;
     public int position;
+    public string miniMapRooms;
 }
 
 
