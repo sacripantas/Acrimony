@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 8881598860283981616}
   - component: {fileID: 2095776772475707884}
   - component: {fileID: 3999381981736976154}
+  - component: {fileID: 3541814344005448385}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -52,8 +53,8 @@ MonoBehaviour:
   respawners: []
   player: {fileID: 0}
   isPaused: 0
-  saveState: {fileID: 0}
-  loadPrefs: {fileID: 0}
+  playerName: 
+  elapsedTime: 0
 --- !u!114 &-5068234732034190135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,4 +153,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   path: 
-  name: 
+  saveName: 
+--- !u!114 &3541814344005448385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754330382488774710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0e3da2ee5bc7fb4580583c53fe7c384, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isTimerActive: 0

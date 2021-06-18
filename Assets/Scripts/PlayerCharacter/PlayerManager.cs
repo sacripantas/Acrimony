@@ -163,25 +163,18 @@ public class PlayerManager : MonoBehaviour
 	}
 
 	public void Death()
-	{
-		
+	{		
 		if (currentHealth <= 0) //Resets hp to 100 on death
 		{
-            /*
-			isDead = true;
-			manager.DeathHandler();
-			currentHealth = maxHealth;
-			currentAmmo = currentAmmo / 2;
-			currentMoney = 0;
-            */
             manager.DeathHandler();
 			StartCoroutine(DeathReset());
+			isDead = true;
 		}
 	}
 
 	IEnumerator DeathReset()
 	{
-		yield return new WaitForSeconds(0.01f);
+		yield return new WaitForSeconds(0.1f);
 		isDead = false;
 	}
 

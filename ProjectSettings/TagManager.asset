@@ -12,6 +12,7 @@ TagManager:
   - Projectile
   - Teleport
   - Destructible
+  - Ricmod
   layers:
   - Default
   - TransparentFX

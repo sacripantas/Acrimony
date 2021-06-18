@@ -6,38 +6,30 @@ using UnityEngine.Tilemaps;
 public class BossFightTrigger : MonoBehaviour
 {
 	public GameObject boss;
-	//public GameObject door;
-	public Tilemap fireTilemap;
-	private AdalhardDeathHandler handler;
-	private PlayerManager manager;
+	public Tilemap uniqueTilemap;
 
-	private void Start()
+	public static BossFightTrigger instance = null;
+
+	private void Awake()//Singleton
 	{
-		handler = AdalhardDeathHandler.instance;
-		manager = PlayerManager.instance;
-	}
-
-
-	private void Update()
-	{
-		if(handler.isDead == true)
+		if (instance == null)
 		{
-			fireTilemap.gameObject.SetActive(true);
-			this.gameObject.SetActive(false);
+			instance = this;
 		}
-		if (manager.isDead)
+		else if (instance != this)
 		{
-			fireTilemap.gameObject.SetActive(false);
+			Destroy(gameObject);
 		}
 	}
+
+
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		if(collision.gameObject.tag == "Player")
 		{
 			boss.SetActive(true);
-			fireTilemap.gameObject.SetActive(true);
+			uniqueTilemap.gameObject.SetActive(true);
 			Debug.Log("Start");
-			//gameObject.SetActive(false);
 		}
 	}
 }

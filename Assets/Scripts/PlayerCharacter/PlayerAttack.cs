@@ -85,7 +85,14 @@ public class PlayerAttack : MonoBehaviour
 
 				for (int i = 0; i < enemiesToDamage.Length; i++)
 				{
-					enemiesToDamage[i].GetComponent<EnemyManager>().TakeDamage(damage);
+					if(enemiesToDamage[i].tag == "Enemy")
+					{
+						enemiesToDamage[i].GetComponent<EnemyManager>().TakeDamage(damage);
+					}
+					else if(enemiesToDamage[i].tag == "Ricmod")
+					{
+						enemiesToDamage[i].GetComponent<RicmodManager>().TakeDamage(damage);
+					}					
 				}
 				swipeFX.Play();
 				//attackArea.SetActive(true);		
@@ -112,7 +119,14 @@ public class PlayerAttack : MonoBehaviour
 
 				for (int i = 0; i < enemiesToDamage.Length; i++)
 				{
-					enemiesToDamage[i].GetComponent<EnemyManager>().TakeDamage(damageLunge);
+					if (enemiesToDamage[i].tag == "Enemy")
+					{
+						enemiesToDamage[i].GetComponent<EnemyManager>().TakeDamage(damage);
+					}
+					else if (enemiesToDamage[i].tag == "Ricmod")
+					{
+						enemiesToDamage[i].GetComponent<RicmodManager>().TakeDamage(damage);
+					}
 				}
 				lungeFX.Play();
 				//attackArea.SetActive(true);

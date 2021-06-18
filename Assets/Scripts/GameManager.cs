@@ -17,10 +17,9 @@ public class GameManager : MonoBehaviour
 
     public bool isPaused;
 
-    [SerializeField]
     private SaveHelper saveState;
-    [SerializeField]
     private LoadPrefs loadSave;
+
 
     public SaveHelper SaveState { get => saveState; }
     public LoadPrefs LoadSave { get => loadSave; }
@@ -32,6 +31,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     [Tooltip("Name used for saving")]
     private string playerName;
+
+    [SerializeField]
+    private float elapsedTime;
 
     //singleton
     void Awake() {
@@ -103,7 +105,9 @@ public class GameManager : MonoBehaviour
         SaveState.SetProgression(ProgressionTracker.instance.GetProgression());
         SaveState.SetInventory(GetComponent<InventorySaveHelper>().SerializeInventory(InventoryHandler.instance.Inventory));
         SaveState.SetEquipped(GetComponent<InventorySaveHelper>().SerializeInventory(InventoryHandler.instance.Equiped));
-        SaveState.SetMinimap(MinimapManager.instance.GetMiniMapRooms());
+        ChoosePlayer.minimaps[scene - 1] = MinimapManager.instance.GetMiniMapRooms();
+        SaveState.SetMinimap(MinimapManager.instance.SerializeMinimap(ChoosePlayer.minimaps));
+        SaveState.SetTime(TimerHandler.instance.ElapsedTime);
 
         try {
             SaveState.Save();
@@ -127,7 +131,9 @@ public class GameManager : MonoBehaviour
         ActivateSpawn();
         playerManager.SetPlayer(SavedInMemory.hp, SavedInMemory.mana, SavedInMemory.money, SavedInMemory.ammo);
         ProgressionTracker.instance.SetProgression(SavedInMemory.progression);
-        MinimapManager.instance.SetMiniMapRooms(SavedInMemory.miniMapRooms);
+        MinimapManager.instance.DeserializeMinimap(SavedInMemory.miniMapRooms);
+        MinimapManager.instance.SetMiniMapRooms(ChoosePlayer.minimaps[save.scene-1]);
+        TimerHandler.instance.SetTimer(SavedInMemory.timeElapsed);
     }
 
     //to be called after the UI Manager is loaded fully
@@ -136,7 +142,10 @@ public class GameManager : MonoBehaviour
         GetComponent<InventorySaveHelper>().DeserializeInventory(SavedInMemory.inventory, false);
         GetComponent<InventorySaveHelper>().DeserializeInventory(SavedInMemory.equipped, true);
     }
-
+    //inserts current minimap in static minimap string
+    public void SetMinimapString() {
+        ChoosePlayer.minimaps[save.scene - 1] = MinimapManager.instance.GetMiniMapRooms();
+    }
     //returns Spawner Index or -1 if not present
     public int GetSpawnerIndex(Respawner respawner) {
         int i = 0;

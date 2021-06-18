@@ -45,9 +45,11 @@ public class MainMenuManager : MonoBehaviour
 	public GameObject videoMenu;
 	public GameObject saveSlotMenu;
 	public GameObject loadSlotMenu;
+	public GameObject expanded;
 
 
-    [Header("Save Slots")]
+
+	[Header("Save Slots")]
     [SerializeField]
     [Tooltip("All json files on the folder /UserSaves")]
     private List<string> currentSaves;
@@ -82,11 +84,14 @@ public class MainMenuManager : MonoBehaviour
 
     void Start()
     {		
-		Cursor.visible = true;		
+		Cursor.visible = true;
+		mainMenu.SetActive(true);
 		optionsMenu.SetActive(false);
 		confirmMenu.SetActive(false);
 		audioMenu.SetActive(false);
 		videoMenu.SetActive(false);
+		saveSlotMenu.SetActive(false);
+		loadSlotMenu.SetActive(false);
         this.LoadSaveFiles();
     }
 
@@ -101,7 +106,9 @@ public class MainMenuManager : MonoBehaviour
         save.progression = "000000000"; //All locked
         save.scene  = 1;
         save.position = 0;
-        save.miniMapRooms = "01111111111111111111111"; //Every room locked
+        foreach (string str in ChoosePlayer.minimaps)
+            save.miniMapRooms += "" + str + "#"; //needs to serialize the struct
+        save.timeElapsed = 0f;
     }
 
     //Save a new file for New Game
@@ -119,10 +126,14 @@ public class MainMenuManager : MonoBehaviour
     }
 
     public void ReadSavedFile() {
-        ChoosePlayer.playerName = loadGameSlots[ChoosePlayer.saveSlot-1].GetComponentInChildren<TextMeshProUGUI>().text;
-        Debug.Log(ChoosePlayer.saveSlot + "    " + ChoosePlayer.playerName);
-        string file = File.ReadAllText(Application.persistentDataPath + "/UserSave/" + ChoosePlayer.saveSlot + "." + ChoosePlayer.playerName + ".json");
-        save = JsonUtility.FromJson<SaveStruct>(file);
+        try {
+            ChoosePlayer.playerName = loadGameSlots[ChoosePlayer.saveSlot - 1].GetComponentInChildren<TextMeshProUGUI>().text;
+            string file = File.ReadAllText(Application.persistentDataPath + "/UserSave/" + ChoosePlayer.saveSlot + "." + ChoosePlayer.playerName + ".json");
+            save = JsonUtility.FromJson<SaveStruct>(file);
+        }
+        catch (System.Exception e){
+            Debug.Log(e.ToString());
+        }
     }
 
     public void LoadNewGame() {
@@ -138,8 +149,17 @@ public class MainMenuManager : MonoBehaviour
         //Reads the player file
         ReadSavedFile();
         //Loads the saved scene
+        Debug.Log(save.scene);
         SceneManager.LoadScene(save.scene);
     }
+
+    //expands selected slot
+	public void OpenSlot(int index) {
+        ReadSavedFile();
+        ExpandedSlotManager.instance.ShowExpanded(ChoosePlayer.playerName,save.scene, save.timeElapsed);
+        loadAnimator.Play("FadeOutLoad");
+		expanded.SetActive(true);	
+	}
 
 	public void StartNewGame(string name)
 	{		
@@ -227,6 +247,11 @@ public class MainMenuManager : MonoBehaviour
 
     //List all json files in the folder UserSave
     public void LoadSaveFiles() {
+        currentSaves.Clear();
+        for(int i = 0; i < loadGameSlots.Count; i++) {
+            loadGameSlots[i].GetComponentInChildren<TextMeshProUGUI>().SetText("Empty Save " + (i+1));
+            newGameSlots[i].GetComponentInChildren<TextMeshProUGUI>().SetText("Empty Save " + (i+1));
+        }
         foreach (string file in Directory.EnumerateFiles(Application.persistentDataPath + "/UserSave", "*.json")) {
             currentSaves.Add(file.Split('\\')[1]);
         }
@@ -290,7 +315,6 @@ public class MainMenuManager : MonoBehaviour
 			case "Main":
 				mainAnimator.Play("FadeOutMain");
 				yield return new WaitForSeconds(1f);
-				optionsMenu.SetActive(true);
 				mainMenu.SetActive(false);				
 				eventSystem.SetSelectedGameObject(returnOptions);
 				yield return new WaitForSeconds(0.1f);

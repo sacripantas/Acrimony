@@ -1,21 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AdalhardDeathHandler : MonoBehaviour
 {
+	[Header("General")]
 	public GameObject Adalhard;
 	public GameObject Death;
-	private Animator anim;
 	public GameObject particles;
 	public GameObject uiBar;
-	private bool reactivate = true;
+
+	[Header("References")]
 	private ProgressionTracker progressionTracker;
 	private UIManager uIManager;
-	public bool screenChange = true;
 	private PlayerManager playerManager;
 	private EnemyManager enemyManager;
-
+	
+	private Animator anim;	
+	private bool reactivate = true;	
+	public bool screenChange = true;
 	public bool isDead = false;
 	private float maxHP;
 
@@ -41,17 +45,21 @@ public class AdalhardDeathHandler : MonoBehaviour
 		playerManager = PlayerManager.instance;
 		anim = GetComponentInChildren<Animator>();
 		progressionTracker = ProgressionTracker.instance;
-		maxHP = enemyManager.health;
-    }
+		maxHP = enemyManager.maxHealth;
+
+		uiBar.GetComponentInChildren<Slider>().maxValue = maxHP;
+	}
 
 	// Update is called once per frame
 	void Update()
     {
 		if (playerManager.isDead == true)
 		{
+			StartCoroutine(CancelAction());
+			BossFightTrigger.instance.uniqueTilemap.gameObject.SetActive(false);
 			Adalhard.SetActive(false);
 			Debug.Log("Dead");
-			enemyManager.health = maxHP;
+			enemyManager.health = maxHP;			
 		}
 
 		uIManager.SetBossHP(enemyManager.health);
@@ -93,9 +101,16 @@ public class AdalhardDeathHandler : MonoBehaviour
 				Death.SetActive(true);
 				//Instantiate(Death, lastPos, Quaternion.identity);
 				StartCoroutine(DeathFX());
+				BossFightTrigger.instance.GetComponent<BoxCollider2D>().enabled = false;
 			}
 		}		
     }
+
+	IEnumerator CancelAction()
+	{
+		AdalhardAI.instance.CancelAll();
+		yield return null;
+	}
 
 	IEnumerator DeathFX()
 	{

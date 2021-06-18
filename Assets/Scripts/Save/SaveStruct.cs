@@ -10,6 +10,7 @@ public struct SaveStruct {
     public int scene;
     public int position;
     public string miniMapRooms;
+    public float timeElapsed;
 }
 
 

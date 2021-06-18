@@ -14,7 +14,12 @@ public class MinimapManager : MonoBehaviour
     [SerializeField]
     [Tooltip("List of all minimap panels")]
     private List<GameObject> rooms;
-    
+
+    private MiniMapStruct minimap = new MiniMapStruct();
+
+    private List<int> teleportRooms;
+
+    public MiniMapStruct Minimap { get => minimap; }
     void Awake() {
         if (instance == null) {
             instance = this;
@@ -26,6 +31,8 @@ public class MinimapManager : MonoBehaviour
 	void Start()
     {
 		pauseMenu = PauseMenuManager.instance;
+        minimap.minimapString = GetMiniMapRooms();
+        //minimap.teleportRooms = new int[teleportRooms.Count];
     }
 
     // Update is called once per frame
@@ -63,9 +70,33 @@ public class MinimapManager : MonoBehaviour
     }
 
     public void SetMiniMapRooms(string strRooms) {
-        Debug.Log(strRooms.Length);
+        minimap.minimapString = strRooms;
         for(int i = 0; i <strRooms.Length; i++) {
             rooms[i].SetActive(System.Convert.ToBoolean(char.GetNumericValue(strRooms[i])));
+        }
+    }
+
+    public string SerializeMinimap(string[] minimaps) {
+        string serializedString = "";
+        foreach(string str in minimaps) {
+            /*
+             * Serialize a struct for teleport in multiple scenes 
+             */
+
+            serializedString += str + "#"; //delimiting each level by #
+        }
+        return serializedString;
+    }
+
+    public void DeserializeMinimap(string json) {
+        if (json == null) return;        
+        string[] minimaps = json.Split('#'); //spliting each item using the delimeter #
+        for (int i = 0; i < ChoosePlayer.minimaps.Length; i++) {
+            /*
+             * Deserialize file in the memory for teleport in multiple scenes
+             */
+
+            ChoosePlayer.minimaps[i] = minimaps[i]; 
         }
     }
 }

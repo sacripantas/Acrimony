@@ -37,6 +37,21 @@ public class AdalhardAI : MonoBehaviour
 	private StatusEffectManager effectManager;
 	private bool isEnraged;
 
+	public static AdalhardAI instance = null;
+
+	private void Awake()//Singleton
+	{
+		if (instance == null)
+		{
+			instance = this;
+		}
+		else if (instance != this)
+		{
+			Destroy(gameObject);
+		}
+	}
+
+
 	private void Start()
 	{
 		rigid = GetComponent<Rigidbody2D>();
@@ -52,11 +67,18 @@ public class AdalhardAI : MonoBehaviour
 		PlayerFinder();
 	}
 
-
+	public void CancelAll()
+	{
+		GameObject delete = GameObject.Find("DarkBall(Clone)");
+		Destroy(delete);
+		StopAllCoroutines();
+		projectileParticles.SetActive(false);
+		Debug.Log("Stopped");
+	}
 
 	void HPStage()
 	{
-		if (enemyManager.health <= 500)
+		if (enemyManager.health <= enemyManager.maxHealth / 2)
 		{
 			anim.SetBool("IsEnraged", true);
 		}
@@ -98,7 +120,6 @@ public class AdalhardAI : MonoBehaviour
 		}
 	}
 
-
 	public void PlayerFinder()
 	{
 		Vector2 targetPos = target.position;
@@ -111,6 +132,7 @@ public class AdalhardAI : MonoBehaviour
 	{
 		anim.SetBool("ProjectileBarrageComplete", true);
 		GameObject tempBall = Instantiate(darkBall, fireOrigin.position, Quaternion.identity);
+		tempBall.GetComponent<DarkBall>().duration = 1f;
 		tempBall.GetComponent<Rigidbody2D>().AddForce(playerDirection * force);
 		
 	}

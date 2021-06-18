@@ -10,6 +10,9 @@ public class AltarOfRespawn : NPCBehaviour {
     [Tooltip("Waiting time between save.")]
     private float waitFor;
     private bool canSave = true;
+
+    [SerializeField]
+    private int scene;
     // Start is called before the first frame update
     void Start() {
         respawner = GetComponent<Respawner>();
@@ -23,7 +26,7 @@ public class AltarOfRespawn : NPCBehaviour {
             manager.DeactivateSpawners();
             respawner.isActive = true;
             Debug.Log("Progress was saved on spawner: " + manager.GetSpawnerIndex(respawner));
-            manager.SaveCurrent(0, manager.GetSpawnerIndex(respawner));
+            manager.SaveCurrent(scene, manager.GetSpawnerIndex(respawner));
             this.TMPText.SetText("Progress Saved");
             Invoke("SetSave", waitFor);
         } else {

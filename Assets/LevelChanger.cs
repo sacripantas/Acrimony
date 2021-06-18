@@ -11,15 +11,8 @@ public class LevelChanger : MonoBehaviour
 	{
 		if(collision.gameObject.tag == "Player")
 		{
-			switch (level)
-			{
-				case 1:
-					SceneManager.LoadScene("Level1 - Chapel of The Tainted");
-					break;
-				case 2:
-					SceneManager.LoadScene("Level2 - Iniquitous Eldenham");
-					break;
-			}
+            GameManager.instance.SetMinimapString();
+            SceneManager.LoadScene(level);            
 		}
 	}
 }

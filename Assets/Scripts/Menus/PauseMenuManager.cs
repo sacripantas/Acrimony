@@ -55,12 +55,14 @@ public class PauseMenuManager : MonoBehaviour
 
 	void ActivateMenu()
 	{
+		TimerHandler.instance.StopTimer();
 		Time.timeScale = 0;
 		pauseMenuContainer.SetActive(true);
 	}
 
 	public void DeactivateMenu()
 	{
+		TimerHandler.instance.ResumeTimer();
 		pauseMenuContainer.SetActive(false);
 		Time.timeScale = 1;	
 		isPaused = false;
@@ -68,6 +70,7 @@ public class PauseMenuManager : MonoBehaviour
 
 	public void MainMenu()
 	{
+		Time.timeScale = 1;
 		SceneManager.LoadScene("Main Menu");
 	}	
 

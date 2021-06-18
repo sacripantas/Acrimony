@@ -63,8 +63,12 @@ public class SaveHelper : MonoBehaviour
     public void SetMinimap(string rooms) {
         save.miniMapRooms = rooms;
     }
-    
-    public void Save() {
+    //save time elapsed in seconds
+    public void SetTime(float time) {
+        save.timeElapsed = (float) System.Convert.ToInt32(time.ToString("0"));
+    }
+
+	public void Save() {
         Debug.Log("Saving at: " + path + saveName);
         //checks if the path exists before saving the file. If not, create;
         if (!System.IO.Directory.Exists(path)) System.IO.Directory.CreateDirectory(path);

@@ -35,11 +35,6 @@ public class EnemyManager : MonoBehaviour
 		}
 	}
 
-	IEnumerator Death()
-	{
-		yield return new WaitForSeconds(1.2f);
-	}
-
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		if(collision.gameObject.tag == "Player")
