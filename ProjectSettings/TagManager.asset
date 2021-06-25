@@ -13,6 +13,7 @@ TagManager:
   - Teleport
   - Destructible
   - Ricmod
+  - GunWall
   layers:
   - Default
   - TransparentFX

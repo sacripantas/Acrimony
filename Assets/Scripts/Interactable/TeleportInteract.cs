@@ -52,6 +52,12 @@ public class TeleportInteract : NPCBehaviour
 		else
 		{
 			menuUI.SetActive(true);
+            try {
+                TeleportManager.instance.CreateRoomsButtons();
+            }
+            catch (System.Exception e) {
+                Debug.Log(e.ToString());
+            }
 			isActive = true;
 		}	
 	}

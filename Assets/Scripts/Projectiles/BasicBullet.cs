@@ -27,6 +27,16 @@ public class BasicBullet : MonoBehaviour
 			collision.gameObject.GetComponent<EnemyManager>().TakeDamage(damage);
 			Destroy(gameObject);
 		}
+		else if (collision.gameObject.tag == "Ricmod")
+		{
+			collision.gameObject.GetComponent<RicmodManager>().TakeDamage(damage);
+			Destroy(gameObject);
+		}
+		else if (collision.gameObject.tag == "GunWall")
+		{
+			Destroy(collision.gameObject);
+			Destroy(gameObject);
+		}
 	}
 
 

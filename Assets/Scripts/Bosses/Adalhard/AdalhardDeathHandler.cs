@@ -10,6 +10,7 @@ public class AdalhardDeathHandler : MonoBehaviour
 	public GameObject Death;
 	public GameObject particles;
 	public GameObject uiBar;
+	public GameObject trigger;
 
 	[Header("References")]
 	private ProgressionTracker progressionTracker;
@@ -92,6 +93,7 @@ public class AdalhardDeathHandler : MonoBehaviour
 		{
 			isDead = true;
 			progressionTracker.UnlockFire();
+			playerManager.currentMana = playerManager.maxMana;
 		}	
 
 		if(screenChange == false)
@@ -101,7 +103,7 @@ public class AdalhardDeathHandler : MonoBehaviour
 				Death.SetActive(true);
 				//Instantiate(Death, lastPos, Quaternion.identity);
 				StartCoroutine(DeathFX());
-				BossFightTrigger.instance.GetComponent<BoxCollider2D>().enabled = false;
+				trigger.SetActive(false);
 			}
 		}		
     }

@@ -43,9 +43,10 @@ public class UIManager : MonoBehaviour
 	public Slider healBar;
 	public Image healFill;
 
-	[Header("Adalhard")]
-	public Slider adalhardHpBar;
-	public Image adalhardFill;
+	[Header("Boss")]
+	public Slider bossHpBar;
+	public Image bossFill;
+	public Text bossName;
             
     void Awake() {
         if (instance == null) {
@@ -112,7 +113,12 @@ public class UIManager : MonoBehaviour
 
 	public void SetBossHP(float health)
 	{
-		adalhardHpBar.value = health;
+		//bossHpBar.value = health;
+	}
+
+	public void SetBossName(string name)
+	{
+		bossName.text = name;
 	}
 
 	//==================================================================================STATUS EFFECTS=======================================================

@@ -177,7 +177,7 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 8
-  playerManager: {fileID: 7355153182142914742, guid: 77d9bb58842528146ad5bf58d299bcec, type: 3}
+  playerManager: {fileID: 832579259092249515, guid: a7af0c8b30a68354dafef62f0d2fd672, type: 3}
   darkBall: {fileID: 7878430141321736799, guid: 6bd683e24b2e6044fa4c861f6e02f6af, type: 3}
   fireRate: 0
   fireOrigin: {fileID: 7817659290889039400}
@@ -185,7 +185,7 @@ MonoBehaviour:
   damage: 5
   duration: 2
   range: 0
-  target: {fileID: 7282333200113005700, guid: 77d9bb58842528146ad5bf58d299bcec, type: 3}
+  target: {fileID: 832579259303556948, guid: a7af0c8b30a68354dafef62f0d2fd672, type: 3}
 --- !u!114 &8692283434962816725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,8 +198,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f06a0f79b592eef4ead2fe785b577f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 3
   health: 15
-  speed: 1
   contactDamage: 15
   currency: 10
   originalPos: {x: 0, y: 0}

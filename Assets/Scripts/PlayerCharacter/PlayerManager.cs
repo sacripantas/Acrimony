@@ -106,9 +106,10 @@ public class PlayerManager : MonoBehaviour
 		}
 	}
 
-	void ReceiveMana(int manaHeal)
+	public void ReceiveMana(int manaHeal)
 	{
 		currentMana += manaHeal;
+		if (currentMana > maxMana) currentMana = maxMana;
 	}
 
 	public void TakeDamage(int damage)
@@ -123,7 +124,7 @@ public class PlayerManager : MonoBehaviour
 	public void ReceiveHealth(int heal)
 	{
 		currentHealth += heal;
-        if (currentHealth > 100) currentHealth = 100;
+        if (currentHealth > maxHealth) currentHealth = maxHealth;
 	}
 
 	public void ReceiveMoney(int money)
