@@ -18,6 +18,13 @@ public class ProgressionTracker : MonoBehaviour
 	public bool unlockTeleport0 = false; //7
 	public bool unlockTeleport1 = false; //8
 
+	[Header("Bosses")]
+	public bool adlahardDead = false;
+	public bool ricmodDead = false;
+	public bool ricmodExaltedDead = false;
+	public bool trueRicmodDead = false;
+
+
 	public static ProgressionTracker instance = null;
 
 	private void Awake()
@@ -85,7 +92,7 @@ public class ProgressionTracker : MonoBehaviour
     //returns a string with progress where 0 = locked and 1 = unlocked
     public string GetProgression() {
         string progression = "";
-		progression +=  Convert.ToInt32(unlockDoubleJump) + "" +
+		progression += Convert.ToInt32(unlockDoubleJump) + "" +
 						Convert.ToInt32(unlockWallJump) + "" +
 						Convert.ToInt32(unlockDash) + "" +
 						Convert.ToInt32(unlockGun) + "" +
@@ -93,8 +100,13 @@ public class ProgressionTracker : MonoBehaviour
 						Convert.ToInt32(unlockProjectileIce) + "" +
 						Convert.ToInt32(unlockProjectileCharm) + "" +
 						Convert.ToInt32(unlockTeleport0) + "" +
-						Convert.ToInt32(unlockTeleport1);
-        return progression;
+						Convert.ToInt32(unlockTeleport1) + "" +
+						Convert.ToInt32(adlahardDead) + "" +
+						Convert.ToInt32(ricmodDead) + "" +
+						Convert.ToInt32(ricmodExaltedDead) + "" +
+						Convert.ToInt32(trueRicmodDead);
+
+		return progression;
     }
 
     //Set progression according to string of int
@@ -108,5 +120,9 @@ public class ProgressionTracker : MonoBehaviour
         unlockProjectileCharm = Convert.ToBoolean((int)Char.GetNumericValue(progression[6]));
 		unlockTeleport0 = Convert.ToBoolean((int)Char.GetNumericValue(progression[7]));
 		unlockTeleport1 = Convert.ToBoolean((int)Char.GetNumericValue(progression[8]));
+		adlahardDead = Convert.ToBoolean((int)Char.GetNumericValue(progression[9]));
+		ricmodDead = Convert.ToBoolean((int)Char.GetNumericValue(progression[10]));
+		ricmodExaltedDead = Convert.ToBoolean((int)Char.GetNumericValue(progression[11]));
+		trueRicmodDead = Convert.ToBoolean((int)Char.GetNumericValue(progression[11]));
 	}
 }

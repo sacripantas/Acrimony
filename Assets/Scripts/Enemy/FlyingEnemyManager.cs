@@ -12,9 +12,16 @@ public class FlyingEnemyManager : MonoBehaviour
 	public AIPath aiPath;
 	private StatusEffectManager effectManager;
 
+	public bool canPoison;
+	public bool canBurn;
+
 	public int poisonDmg = 10;
 	public int poisonDuration = 5;
 	public float poisonTickRate = 1f;
+
+	public int burnDmg = 10;
+	public int burnDuration = 5;
+	public float burnTickRate = 1f;
 
 	// Start is called before the first frame update
 	void Start()
@@ -40,7 +47,14 @@ public class FlyingEnemyManager : MonoBehaviour
 	{
 		if (collision.gameObject.tag == "Player")
 		{
-			effectManager.Poisoned(poisonDmg, poisonDuration, poisonTickRate);
+			if (canPoison)
+			{
+				effectManager.Burning(burnDmg, burnDuration, burnTickRate);
+			}
+			else if (canBurn)
+			{
+				effectManager.Poisoned(poisonDmg, poisonDuration, poisonTickRate);
+			}
 		}
 	}
 }

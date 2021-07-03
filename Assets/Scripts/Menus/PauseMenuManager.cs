@@ -8,6 +8,7 @@ public class PauseMenuManager : MonoBehaviour
 	public bool isPaused = false;
 	[Header("Containers")]
 	public GameObject pauseMenuContainer;
+    public GameObject deathScreen;
 
 	public static PauseMenuManager instance = null;
 
@@ -60,6 +61,12 @@ public class PauseMenuManager : MonoBehaviour
 		pauseMenuContainer.SetActive(true);
 	}
 
+    public void ActivateDeathScreen() {
+        TimerHandler.instance.StopTimer();
+        Time.timeScale = 0;
+        deathScreen.SetActive(true);
+    }
+
 	public void DeactivateMenu()
 	{
 		TimerHandler.instance.ResumeTimer();
@@ -92,4 +99,8 @@ public class PauseMenuManager : MonoBehaviour
 	{
 
 	}
+
+    public void Respawn() {
+        GameManager.instance.ReloadScene();
+    }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -34,6 +35,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private float elapsedTime;
+        
+    public List<Teleporter> teleporters;
 
     //singleton
     void Awake() {
@@ -49,7 +52,8 @@ public class GameManager : MonoBehaviour
 	}
     // Start is called before the first frame update
     void Start()
-    {       
+    {
+		Time.timeScale = 1f;
         playerManager = PlayerManager.instance;
         playerName = ChoosePlayer.playerName;
         SaveState.SaveName = ChoosePlayer.saveSlot + "." + playerName;
@@ -134,6 +138,7 @@ public class GameManager : MonoBehaviour
         MinimapManager.instance.DeserializeMinimap(SavedInMemory.miniMapRooms);
         MinimapManager.instance.SetMiniMapRooms(ChoosePlayer.minimaps[save.scene-1]);
         TimerHandler.instance.SetTimer(SavedInMemory.timeElapsed);
+        LoadInventory();
     }
 
     //to be called after the UI Manager is loaded fully
@@ -142,6 +147,7 @@ public class GameManager : MonoBehaviour
         GetComponent<InventorySaveHelper>().DeserializeInventory(SavedInMemory.inventory, false);
         GetComponent<InventorySaveHelper>().DeserializeInventory(SavedInMemory.equipped, true);
     }
+
     //inserts current minimap in static minimap string
     public void SetMinimapString() {
         ChoosePlayer.minimaps[save.scene - 1] = MinimapManager.instance.GetMiniMapRooms();
@@ -159,6 +165,7 @@ public class GameManager : MonoBehaviour
 
     // to be called upon death
     public void DeathHandler() {
+        /*
         //discards current inventory and equipped items
         InventoryHandler.instance.ClearItems();
         //load saved stats
@@ -167,6 +174,14 @@ public class GameManager : MonoBehaviour
         this.LoadInventory();
         //respawns player
         this.SpawnHandler();
+        */
+
+        //Activate Death Screen
+        PauseMenuManager.instance.ActivateDeathScreen();
+    }
+
+    public void ReloadScene() {
+        SceneManager.LoadScene(save.scene);
     }
 
     public void Pause(bool flag) {

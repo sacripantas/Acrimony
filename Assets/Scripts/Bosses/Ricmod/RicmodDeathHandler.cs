@@ -53,59 +53,39 @@ public class RicmodDeathHandler : MonoBehaviour
 
 	void Update()
 	{
-
-		if (playerManager.isDead == true)
+		if(progressionTracker.ricmodDead == false)
 		{
-			StartCoroutine(CancelAction());
-			Ricmod.SetActive(false);
-			ricmodManager.health = maxHP;
-			BossFightTrigger.instance.uniqueTilemap.gameObject.SetActive(false);
-		}
+			if (Ricmod.activeInHierarchy == true)
+			{
+				bossUI.SetActive(true);
+				uIManager.SetBossHP(ricmodManager.health);
+				uIManager.SetBossName("RICMOD RÚN THE EXTINGUISHED");
+				Debug.Log("test");
+			}
 
-		
+			Vector2 lastPos = Ricmod.transform.position; ;
 
-		if (Ricmod.activeInHierarchy == true)
-		{
-			bossUI.SetActive(true);
-			uIManager.SetBossHP(ricmodManager.health);
-		}
+			Death.transform.position = lastPos;
 
-		Vector2 lastPos = Ricmod.transform.position;;
-
-		Death.transform.position = lastPos;
-
-		if (ricmodManager.health >= 1)
-		{
-			screenChange = true;
+			if (ricmodManager.health <= 0)
+			{
+				trigger.SetActive(false);
+				isDead = true;
+				StartCoroutine(CancelAction());
+				progressionTracker.UnlockIce();
+				progressionTracker.ricmodDead = true;
+				playerManager.currentMana = playerManager.maxMana;
+			}
 		}
 		else
 		{
-			screenChange = false;
-		}
-
-		if (ricmodManager.health <= 0)
-		{
-			isDead = true;
-			StartCoroutine(CancelAction());
-			progressionTracker.UnlockIce();
-			playerManager.currentMana = playerManager.maxMana;
-		}
-
-		if (screenChange == false)
-		{
-			if (Ricmod.activeInHierarchy == false && reactivate == true)
-			{
-				Death.SetActive(true);
-				StartCoroutine(DeathFX());
-				//BossFightTrigger.instance.GetComponent<BoxCollider2D>().enabled = false;
-				trigger.SetActive(false);
-			}
+			trigger.SetActive(false);
 		}
 	}
 
 	IEnumerator CancelAction()
 	{
-		//RicmodAI.instance.CancelAll();
+		RicmodAI.instance.CancelAll();
 		yield return null;
 	}
 

@@ -9,12 +9,19 @@ public class ShadowManager : MonoBehaviour
 	public float distanceWalked;
 	public float maxDistance = 10;
 	private SpriteRenderer spriteRenderer;
+	private StatusEffectManager effectManager;
+	public bool canFreeze;
+	public bool canGround;
+	public int groundDuration = 5;
+	public int freezeDuration = 5;
 
-    // Start is called before the first frame update
-    void Start()
+
+	// Start is called before the first frame update
+	void Start()
     {
 		spriteRenderer = GetComponent<SpriteRenderer>();
-    }
+		effectManager = StatusEffectManager.instance;
+	}
 
     // Update is called once per frame
     void Update()
@@ -37,6 +44,23 @@ public class ShadowManager : MonoBehaviour
 			spriteRenderer.flipX = false;
 		}
 	}
+
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+		if (collision.gameObject.tag == "Player")
+		{
+			if (canFreeze)
+			{
+				effectManager.Freezing(freezeDuration);
+			}
+			else if (canGround)
+			{
+				effectManager.Grounded(groundDuration);
+			}
+		}
+	}
+
+
 	IEnumerator Turn()
 	{
 		if(distanceWalked >= maxDistance)

@@ -73,6 +73,7 @@ public class SlotManagerUI : ItemUI {
 
     //Shows amount of items current stacked
     public void ShowStack(bool flag) {
+        if (ivnMng == null) return;
         if (flag) {
             if (ivnMng.GetItem(this.itemPos).CanStack > 0) {
                 this.stackCount.SetText(ivnMng.GetItem(this.itemPos).Stacked.ToString());

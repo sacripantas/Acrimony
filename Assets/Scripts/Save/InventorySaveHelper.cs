@@ -31,7 +31,10 @@ public class InventorySaveHelper : MonoBehaviour
     }
 
     public void DeserializeInventory(string json, bool isEquip) {
-        if (json == null) return;
+        if (json == null) {
+            Debug.Log("JSON null");
+            return;
+        }
         ItemStruct item;
         Item newItem;        
         string[] items = json.Split('#'); //spliting each item using the delimeter #

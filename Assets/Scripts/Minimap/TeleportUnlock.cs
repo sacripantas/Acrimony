@@ -44,6 +44,7 @@ public class TeleportUnlock : MonoBehaviour
 		{
 			interact.menuUI.SetActive(false);
 			interact.isActive = false;
+            PlayerAttack.instance.CanAttack(true);
 		}
 	}
 }

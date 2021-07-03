@@ -78,18 +78,22 @@ public class TeleportManager : MonoBehaviour
     }
 
     //create a list of available portals
-    public void SetPortals() {
+    public void SetPortals(bool currentScene) {
         ClearPortalList();
         int pos = 0, i = 0;
         GameObject btn = null;
-        foreach (GameObject portal in roomsList) {
-            btn = Instantiate(btnPortal);
-            btn.GetComponent<AvailablePortals>().SetBtn(portal.GetComponent<TeleportInteract>(), i);
-            btn.transform.SetParent(portalsPanel.transform);
-            btn.GetComponent<AvailablePortals>().SetPosition(pos);
-            pos += 50;
-            portalsLists.Add(btn);
-            i++;
+        if (currentScene) {
+            foreach (GameObject portal in roomsList) {
+                btn = Instantiate(btnPortal);
+                btn.GetComponent<AvailablePortals>().SetBtn(portal.GetComponent<TeleportInteract>(), i);
+                btn.transform.SetParent(portalsPanel.transform);
+                btn.GetComponent<AvailablePortals>().SetPosition(pos);
+                pos += 50;
+                portalsLists.Add(btn);
+                i++;
+            }
+        } else {
+            Debug.Log("not current scene");
         }
     }
 

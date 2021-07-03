@@ -263,6 +263,7 @@ GameObject:
   - component: {fileID: 2156143795895344211}
   - component: {fileID: 2156143795895344209}
   - component: {fileID: 7810760763804005051}
+  - component: {fileID: 4810306373835829316}
   m_Layer: 10
   m_Name: Teleporter
   m_TagString: Untagged
@@ -317,3 +318,19 @@ MonoBehaviour:
   text: 
   TMPText: {fileID: 2156143795254867491}
   menuUI: {fileID: 0}
+  button: {fileID: 0}
+  isUnlocked: 0
+  isActive: 0
+  index: 0
+--- !u!114 &4810306373835829316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2156143795895344222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c864c0777582da42bc136fc9dc3d31d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

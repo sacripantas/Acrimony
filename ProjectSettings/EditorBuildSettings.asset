@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level2 - Iniquitous Eldenham.unity
     guid: 655db27073021744991dfffd4b27bf58
+  - enabled: 1
+    path: Assets/Scenes/Load.unity
+    guid: 4ec90f93768aa484da15e9c824064a48
   m_configObjects: {}

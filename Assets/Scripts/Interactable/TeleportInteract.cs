@@ -16,6 +16,7 @@ public class TeleportInteract : NPCBehaviour
 	private TeleportManager teleport;
 	private ProgressionTracker tracker;
 	private CircleCollider2D collider;
+    private Teleporter teleporter;
 
 	// Start is called before the first frame update
 	void Start()
@@ -27,12 +28,14 @@ public class TeleportInteract : NPCBehaviour
 		collider = GetComponent<CircleCollider2D>();
 
 		teleportPosition = transform.position;
+        teleporter = GetComponent<Teleporter>();
 	}
 
 	private new void Update()
 	{
 		if (isUnlocked == true)
 		{
+            teleporter.HasBeenSeen = true;
 			button.SetActive(true);
 		}
 		else
@@ -48,10 +51,12 @@ public class TeleportInteract : NPCBehaviour
 		{
 			menuUI.SetActive(false);
 			isActive = false;
+            PlayerAttack.instance.CanAttack(true);
 		}
 		else
 		{
 			menuUI.SetActive(true);
+            PlayerAttack.instance.CanAttack(false);
             try {
                 TeleportManager.instance.CreateRoomsButtons();
             }

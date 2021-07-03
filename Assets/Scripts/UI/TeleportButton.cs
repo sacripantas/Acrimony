@@ -31,7 +31,7 @@ public class TeleportButton : MonoBehaviour
 
     public void SelectRoom() {
         TeleportManager.instance.SetTitle(index);
-        TeleportManager.instance.SetPortals();
+        TeleportManager.instance.SetPortals(index == GameManager.instance.SavedInMemory.scene);
     }
 
     public void SetText(string str) {

@@ -54,59 +54,37 @@ public class AdalhardDeathHandler : MonoBehaviour
 	// Update is called once per frame
 	void Update()
     {
-		if (playerManager.isDead == true)
+		if (progressionTracker.adlahardDead == false)
 		{
-			StartCoroutine(CancelAction());
-			BossFightTrigger.instance.uniqueTilemap.gameObject.SetActive(false);
-			Adalhard.SetActive(false);
-			Debug.Log("Dead");
-			enemyManager.health = maxHP;			
-		}
+			uIManager.SetBossHP(enemyManager.health);
 
-		uIManager.SetBossHP(enemyManager.health);
-
-		if(Adalhard.activeInHierarchy == true)
-		{
-			uiBar.SetActive(true);
-		}
-		else
-		{
-			uiBar.SetActive(false);
-		}
-
-		Vector2 lastPos = Adalhard.transform.position;
-		Vector2 particlePos = lastPos - new Vector2(0, 2.2f);
-
-		Death.transform.position = lastPos;
-		particles.transform.position = particlePos;
-
-		if(enemyManager.health >= 1)
-		{
-			screenChange = true;
-		}
-		else
-		{
-			screenChange = false;
-		}
-
-		if(enemyManager.health <= 0)
-		{
-			isDead = true;
-			progressionTracker.UnlockFire();
-			playerManager.currentMana = playerManager.maxMana;
-		}	
-
-		if(screenChange == false)
-		{
-			if (Adalhard.activeInHierarchy == false && reactivate == true)
+			if (Adalhard.activeInHierarchy == true)
 			{
-				Death.SetActive(true);
-				//Instantiate(Death, lastPos, Quaternion.identity);
-				StartCoroutine(DeathFX());
-				trigger.SetActive(false);
+				uiBar.SetActive(true);
 			}
-		}		
-    }
+			else
+			{
+				uiBar.SetActive(false);
+			}
+
+			Vector2 lastPos = Adalhard.transform.position;
+			Vector2 particlePos = lastPos - new Vector2(0, 2.2f);
+
+			Death.transform.position = lastPos;
+			particles.transform.position = particlePos;
+
+			if (enemyManager.health <= 0)
+			{
+				isDead = true;
+				progressionTracker.UnlockFire();
+				playerManager.currentMana = playerManager.maxMana;
+			}
+		}
+		else
+		{
+			trigger.SetActive(false);
+		}
+	}
 
 	IEnumerator CancelAction()
 	{

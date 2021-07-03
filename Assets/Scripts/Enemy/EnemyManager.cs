@@ -11,7 +11,13 @@ public class EnemyManager : MonoBehaviour
 	public int contactDamage = 25;
 	public int currency = 0;
 
+	public bool canBurn;
+	public bool canBleed;
+	public bool canFreeze;
+	public bool canGround;
+
 	private PlayerManager playerManager;
+	private StatusEffectManager statusEffect;
 
 	//used to respawn enemy in the right place
 	public Vector2 originalPos;
@@ -21,6 +27,7 @@ public class EnemyManager : MonoBehaviour
     {
 		originalPos = transform.localPosition; //Resets enemy position on respawn
 		playerManager = PlayerManager.instance;
+		statusEffect = StatusEffectManager.instance;
 
 		health = maxHealth;
 	}
@@ -40,6 +47,23 @@ public class EnemyManager : MonoBehaviour
 		if(collision.gameObject.tag == "Player")
 		{
 			DealDamage();
+		}
+
+		if (canBurn)
+		{
+			statusEffect.Burning(20, 5, 1);
+		}
+		else if (canBleed)
+		{
+			statusEffect.Bleeding(50, 25, 2);
+		}
+		else if (canFreeze)
+		{
+			statusEffect.Freezing(5);
+		}
+		else if (canGround)
+		{
+			statusEffect.Grounded(5);
 		}
 	}
 

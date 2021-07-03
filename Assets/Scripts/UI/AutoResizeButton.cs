@@ -32,7 +32,7 @@ public class AutoResizeButton : MonoBehaviour
         rectTransform.sizeDelta = new Vector2(parentPanel.rect.width * 0.2f, parentPanel.rect.height * 0.25f);
         int x = GetComponentInChildren<SlotManagerUI>().X;
         int y = GetComponentInChildren<SlotManagerUI>().Y;
-        transform.localPosition = new Vector3((parentPanel.rect.width * 0.2f * y) -parentPanel.rect.width, -((parentPanel.rect.height * 0.25f * x) - 460f));
+        transform.localPosition = new Vector3((parentPanel.rect.width * 0.2f * y) - parentPanel.rect.width, -((parentPanel.rect.height * 0.25f * x) - parentPanel.rect.height/2.0f));        
     }
 
     private void OnEnable() {

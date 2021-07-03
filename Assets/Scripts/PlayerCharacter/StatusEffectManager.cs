@@ -98,46 +98,6 @@ public class StatusEffectManager : MonoBehaviour
 		startJumpforce = characterController.jumpforce;
 	}
 
-	private void Update()
-	{
-		//if (Input.GetKeyDown(KeyCode.J))
-		//{
-		//	Poisoned(10, poisonDuration, 1);
-		//}
-		//if (Input.GetKeyDown(KeyCode.L))
-		//{
-		//	Burning(10, burnDuration, burnTick);
-		//}
-		//if (Input.GetKeyDown(KeyCode.K))
-		//{
-		//	//Healed();
-		//}
-		//if (Input.GetKeyDown(KeyCode.M))
-		//{
-		//	Bleeding(10, bleedDuration, bleedTick);
-		//}
-		//if (Input.GetKeyDown(KeyCode.N))
-		//{
-		//	Freezing();
-		//}
-		//if (Input.GetKeyDown(KeyCode.O))
-		//{
-		//	Grounded();
-		//}
-		//if (Input.GetKeyDown(KeyCode.T))
-		//{
-		//	//Weaken();
-		//}
-		//if (Input.GetKeyDown(KeyCode.Y))
-		//{
-		//	//Strengthen();
-		//}
-		//if (Input.GetKeyDown(KeyCode.U))
-		//{
-		//	ClearAll();
-		//}
-	}
-
 	public void Healed(int healDmg, int healDuration,float healTick)
 	{
 		current = CurrentStatus.Heal;
@@ -237,13 +197,14 @@ public class StatusEffectManager : MonoBehaviour
 		}
 	}
 
-	public void Freezing()
+	public void Freezing(int duration)
 	{
 		if (isFreezing == false)
 		{
 			current = CurrentStatus.Freeze;
 			characterController.runSpeed -= 1;
 			Debug.Log("Freezing");
+			freezeDuration = duration;
 			isFreezing = true;
 			freezeContainer.SetActive(true);
 
@@ -251,13 +212,14 @@ public class StatusEffectManager : MonoBehaviour
 		}
 	}
 
-	public void Grounded()
+	public void Grounded(int duration)
 	{
 		if (isGrounded == false)
 		{
 			current = CurrentStatus.Grounded;
 			characterController.jumpforce /= 2;
 			Debug.Log("Grounded");
+			groundedDuraion = duration;
 			isGrounded = true;
 			groundedContainer.SetActive(true);
 

@@ -103,7 +103,7 @@ public class MainMenuManager : MonoBehaviour
         save.inventory = "";
         save.mana = 100;
         save.money = 0;
-        save.progression = "000000000"; //All locked
+        save.progression = "000000000000"; //All locked
         save.scene  = 1;
         save.position = 0;
         foreach (string str in ChoosePlayer.minimaps)
@@ -142,15 +142,16 @@ public class MainMenuManager : MonoBehaviour
         //Write the new player on the disc
         SaveNewPlayer();
         //starts a new game on first level
-        SceneManager.LoadScene(1);
+        ChoosePlayer.sceneToLoad = 1;
+        SceneManager.LoadScene("Load");
     }
 
     public void LoadSavedGame() {
         //Reads the player file
         ReadSavedFile();
         //Loads the saved scene
-        Debug.Log(save.scene);
-        SceneManager.LoadScene(save.scene);
+        ChoosePlayer.sceneToLoad = save.scene;
+        SceneManager.LoadScene("Load");
     }
 
     //expands selected slot

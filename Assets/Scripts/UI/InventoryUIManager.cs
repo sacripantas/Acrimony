@@ -57,7 +57,7 @@ public class InventoryUIManager : MonoBehaviour
         invScreen.SetActive(true);
         invScreen.SetActive(false);
         dragImage.enabled = false;
-        manager.LoadInventory();
+        //GameManager.instance.LoadInventory();
     }
 
     // Update is called once per frame
@@ -67,9 +67,10 @@ public class InventoryUIManager : MonoBehaviour
             ShowIvn();
         }
         if (dragImage.enabled) {
+            float heightOffset = invScreen.GetComponent<RectTransform>().rect.height / 2.0f;
             /***** Adapted from https://answers.unity.com/questions/849117/46-ui-image-follow-mouse-position.html *****/
             RectTransformUtility.ScreenPointToLocalPointInRectangle(GetComponent<Canvas>().transform as RectTransform, Input.mousePosition, GetComponent<Canvas>().worldCamera, out mousePosRelative);            
-            dragImage.transform.localPosition = mousePosRelative;
+            dragImage.transform.localPosition = new Vector3(mousePosRelative.x, mousePosRelative.y + heightOffset, 0.0f);
         }
     }
 
@@ -78,7 +79,6 @@ public class InventoryUIManager : MonoBehaviour
         if (!manager.isPaused ^ isActive) {
             isActive = !isActive;
             manager.Pause(isActive); //pauses time
-            //this.invScreen.SetActive(isActive); //activates inventory screen
             uiMng.SetUIVisible(!isActive); //deactivate player UI
             if (isActive) UpdateInventory(InventoryHandler.instance.Inventory);
             GetComponent<Animator>().SetBool("open", isActive);
@@ -132,10 +132,12 @@ public class InventoryUIManager : MonoBehaviour
     }    
 
     public void IsOverDelete() {
+        Debug.Log("is over delete");
         isOverDelete = true;
     }
 
     public void IsOffDelete() {
+        Debug.Log("is off delete");
         isOverDelete = false;
     }
 

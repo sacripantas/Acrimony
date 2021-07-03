@@ -114,7 +114,6 @@ public class RicmodAI : MonoBehaviour
 	{
 		if (timeElapsed >= cooldown && isAttacking == false)
 		{
-			Debug.Log("Cooldown expended");
 			index = Random.Range(0, 5);
 			Debug.Log(index);
 			timeElapsed = 0;
@@ -137,12 +136,10 @@ public class RicmodAI : MonoBehaviour
 					counter0 = 0;
 					index = 1;
 					AttackHandler();
-					Debug.Log("Spam Stopped");
 				}
 				else
 				{
 					StartCoroutine(FireProjectile());
-					Debug.Log("attack 0");
 				}				
 				break;
 			case 1:
@@ -152,12 +149,10 @@ public class RicmodAI : MonoBehaviour
 					counter1 = 0;
 					index = 2;
 					AttackHandler();
-					Debug.Log("Spam Stopped");
 				}
 				else
 				{
 					StartCoroutine(FireColumns());
-					Debug.Log("attack 1");
 				}			
 				break;
 			case 2:
@@ -167,12 +162,10 @@ public class RicmodAI : MonoBehaviour
 					counter2 = 0;
 					index = 3;
 					AttackHandler();
-					Debug.Log("Spam Stopped");
 				}
 				else
 				{
 					StartCoroutine(FireMultipleProjectiles());
-					Debug.Log("attack 2");
 				}				
 				break;
 			case 3:
@@ -182,12 +175,10 @@ public class RicmodAI : MonoBehaviour
 					counter3 = 0;
 					index = 4;
 					AttackHandler();
-					Debug.Log("Spam Stopped");
 				}
 				else
 				{
 					StartCoroutine(FireWave());
-					Debug.Log("attack 3");
 				}			
 				break;
 			case 4:
@@ -197,12 +188,10 @@ public class RicmodAI : MonoBehaviour
 					counter4 = 0;
 					index = 0;
 					AttackHandler();
-					Debug.Log("Spam Stopped");
 				}
 				else
 				{
 					StartCoroutine(FireCrosshair());
-					Debug.Log("attack 4");
 				}				
 				break;
 		}
@@ -218,7 +207,6 @@ public class RicmodAI : MonoBehaviour
 		isAttacking = false;
 		timeElapsed = 0;
 		cooldown = 2f;
-		Debug.Log("Stopped");		
 	}
 
 

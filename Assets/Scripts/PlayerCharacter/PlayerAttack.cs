@@ -17,6 +17,7 @@ public class PlayerAttack : MonoBehaviour
 	public Transform attackPos;
 	public ParticleSystem swipeFX;
 	public ParticleSystem lungeFX;
+    private bool canAttack = true;
 
 	//Swipe
 	[Header("Swipe Attack")]
@@ -54,11 +55,13 @@ public class PlayerAttack : MonoBehaviour
     }
 	// Update is called once per frame
 	void Update()
-    {
+    {        
 		if(!manager.isPaused)
 		{
-			SwipeAttack();
-			LungeAttack();
+            if (canAttack) {
+                SwipeAttack();
+                LungeAttack();
+            }
 		}		
 
 		if (character.direction == 1)
@@ -70,6 +73,10 @@ public class PlayerAttack : MonoBehaviour
 			attackPos.transform.localRotation = Quaternion.Euler(0, 0, 0);
 		}
 	}
+
+    public void CanAttack(bool flag) {
+        canAttack = flag;
+    }
 
 	public void SwipeAttack()
 	{

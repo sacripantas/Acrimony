@@ -113,7 +113,8 @@ public class UIManager : MonoBehaviour
 
 	public void SetBossHP(float health)
 	{
-		//bossHpBar.value = health;
+        if(bossHpBar != null)
+		    bossHpBar.value = health;
 	}
 
 	public void SetBossName(string name)
